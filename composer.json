@@ -1,16 +1,16 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/temporary-directory",
+    "description": "The `temporary-directory` package allows you to easily create, use and destroy temporary directories.",
     "keywords": [
         "spatie",
-        ":package_name"
+        "temporary-directory"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/temporary-directory",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Alex Vanderbist",
+            "email": "alex@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\TemporaryDirectory\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Spatie\\TemporaryDirectory\\Test\\": "tests"
         }
     },
     "scripts": {
