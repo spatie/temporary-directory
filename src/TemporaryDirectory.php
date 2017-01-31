@@ -30,6 +30,16 @@ class TemporaryDirectory
         }
     }
 
+    public static function create($path)
+    {
+        return new TemporaryDirectory($path, false);
+    }
+
+    public static function forceCreate($path)
+    {
+        return new TemporaryDirectory($path, true);
+    }
+
     public function path(string $pathOrFilename = ''): string
     {
         if (empty($pathOrFilename)) {
@@ -45,6 +55,11 @@ class TemporaryDirectory
         }
 
         return $path;
+    }
+
+    public function empty() {
+        $this->deleteDirectory($this->path);
+        mkdir($this->path);
     }
 
     public function delete()
