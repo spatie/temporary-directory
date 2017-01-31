@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/80403728/shield?branch=master)](https://styleci.io/repos/80403728)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
 
-This package allows you to quickly create, use and delete a temporary directory.
+This package allows you to quickly create, use and delete a temporary directory in the system's temporary directory.
 
 Here's a quick example on how to create a temporary file and delete it:
 
@@ -36,7 +36,7 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply create an instance of the `TemporaryDirectory`  and pass in a `$path`.
+To create a temporary directory simply create an instance of the `TemporaryDirectory`  and optionally pass in a `$path`. If a `$path` is not provided `TemporaryDirectory` will use a timestamp as the directory name.
 
 By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by passing `true` to `$overwriteExistingDirectory` of the constructor.
 
@@ -49,8 +49,8 @@ new TemporaryDirectory(string $path, true);
 You can use the `path` method to determine the full path to a file or directory in the temporary directory:
 
 ```php
-$temporaryDirectory = new TemporaryDirectory('temp');
-$temporaryDirectory->path('dumps/datadump.dat'); // return  /full/path/to/temporary/directory/temp/dumps/datadump.dat
+$temporaryDirectory = new TemporaryDirectory('temporary');
+$temporaryDirectory->path('dumps/datadump.dat'); // return  /tmp/temporary/dumps/datadump.dat
 ```
 
 ### Deleting a temporary folder
