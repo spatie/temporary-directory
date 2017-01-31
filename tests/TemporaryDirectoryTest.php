@@ -7,12 +7,12 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 {
     protected $temporaryDirectory;
-    protected $testingDirectory = __DIR__ . "/temp";
+    protected $testingDirectory = __DIR__.'/temp';
     protected $temporaryDirectoryName;
 
-    protected $subdirectory = "abc";
-    protected $subdirectories = "abc/321/xyz";
-    protected $subdirectoriesWithFile = "abc/xyz/123/testfile.txt";
+    protected $subdirectory = 'abc';
+    protected $subdirectories = 'abc/321/xyz';
+    protected $subdirectoriesWithFile = 'abc/xyz/123/testfile.txt';
 
     public function setUp()
     {
@@ -55,7 +55,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     public function it_can_create_a_path_to_a_file_in_the_temporary_directory()
     {
         $subdirectoryFilePath = $this->temporaryDirectory->path($this->subdirectoriesWithFile);
-        file_put_contents($subdirectoryFilePath, "testing data");
+        file_put_contents($subdirectoryFilePath, 'testing data');
 
         $this->assertFileExists($subdirectoryFilePath);
         $this->assertFileExists("{$this->temporaryDirectoryName}/{$this->subdirectoriesWithFile}");
@@ -65,7 +65,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     public function it_can_delete_a_temporary_directory_with_files()
     {
         $subdirectoryPath = $this->temporaryDirectory->path($this->subdirectory);
-        file_put_contents("{$subdirectoryPath}/testfile.txt", "testing data");
+        file_put_contents("{$subdirectoryPath}/testfile.txt", 'testing data');
         $this->temporaryDirectory->delete();
 
         $this->assertDirectoryNotExists($this->temporaryDirectoryName);
@@ -81,25 +81,31 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 
     protected function deleteAllFilesExceptGitignore($path, $rootDirectory = true)
     {
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return true;
         }
 
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             return unlink($path);
         }
 
         foreach (scandir($path) as $item) {
-            if ($item == '.' || $item == '..')  continue;
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
 
-            if ($item == '.gitignore' && $rootDirectory) continue;
+            if ($item == '.gitignore' && $rootDirectory) {
+                continue;
+            }
 
-            if (!$this->deleteAllFilesExceptGitignore($path . DIRECTORY_SEPARATOR . $item, false)) {
+            if (! $this->deleteAllFilesExceptGitignore($path.DIRECTORY_SEPARATOR.$item, false)) {
                 return false;
             }
         }
 
-        if(! $rootDirectory) return rmdir($path);
+        if (! $rootDirectory) {
+            return rmdir($path);
+        }
 
         return true;
     }
