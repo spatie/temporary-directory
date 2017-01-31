@@ -30,7 +30,6 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
         $this->assertDirectoryExists($this->temporaryDirectoryPath);
     }
 
-
     /** @test */
     public function by_default_it_will_not_overwrite_an_existing_directory()
     {
