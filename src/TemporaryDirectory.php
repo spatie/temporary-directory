@@ -8,10 +8,7 @@ class TemporaryDirectory
      * @var string The path to the temporary directory
      */
     protected $path;
-
-    /**
-     * Create a new TemporaryDirectory instance
-     */
+    
     public function __construct()
     {
         // constructor body
