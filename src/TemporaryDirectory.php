@@ -11,11 +11,7 @@ class TemporaryDirectory
 
     public function __construct(string $path, bool $overwriteExistingDirectory = false)
     {
-        if (empty($path)) {
-            throw new InvalidArgumentException('The path argument is missing.');
-        }
-
-        $this->path = rtrim($path).DIRECTORY_SEPARATOR;
+        $this->path = $this->sanitizePath($path);
 
         if ($overwriteExistingDirectory && file_exists($this->path)) {
             $this->deleteDirectory($this->path);
@@ -32,7 +28,12 @@ class TemporaryDirectory
 
     public function path(string $pathOrFilename = ''): string
     {
-        $path = $this->path.trim($pathOrFilename, '/');
+        if (empty($pathOrFilename)) {
+            return $this->path;
+        }
+
+        $path = $this->path.DIRECTORY_SEPARATOR.trim($pathOrFilename, '/');
+
         $directoryPath = $this->removeFilenameFromPath($path);
 
         if (! file_exists($directoryPath)) {
@@ -47,6 +48,17 @@ class TemporaryDirectory
         $this->deleteDirectory($this->path);
     }
 
+    protected function sanitizePath(string $path): string
+    {
+        if (empty($path)) {
+            throw new InvalidArgumentException('The path argument can\'t be empty.');
+        }
+
+        $path = rtrim($path);
+
+        return rtrim($path, DIRECTORY_SEPARATOR);
+    }
+
     protected function removeFilenameFromPath(string $path): string
     {
         if (! $this->isFilePath($path)) {
@@ -56,7 +68,7 @@ class TemporaryDirectory
         return substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR));
     }
 
-    protected function isFilePath(string $path):bool
+    protected function isFilePath(string $path): bool
     {
         return strpos($path, '.') !== false;
     }

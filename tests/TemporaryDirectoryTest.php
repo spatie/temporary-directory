@@ -31,6 +31,12 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_strips_trailing_slashes()
+    {
+        // Todo: Add a test that proves that the `path` method strips trailing slashes
+    }
+
+    /** @test */
     public function by_default_it_will_not_overwrite_an_existing_directory()
     {
         mkdir($this->temporaryDirectoryPath);
