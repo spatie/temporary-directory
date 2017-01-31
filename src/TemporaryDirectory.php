@@ -12,10 +12,10 @@ class TemporaryDirectory
     public function __construct(string $path, bool $overwriteExistingDirectory = false)
     {
         if (empty($path)) {
-            throw new InvalidArgumentException('The path argument is missing.');
+            $path = microtime();
         }
 
-        $this->path = rtrim($path).DIRECTORY_SEPARATOR;
+        $this->path = $this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 
         if ($overwriteExistingDirectory && file_exists($this->path)) {
             $this->deleteDirectory($this->path);
@@ -44,7 +44,19 @@ class TemporaryDirectory
 
     public function delete()
     {
-        $this->deleteDirectory($this->path);
+        $parentDirectory = $this->getHighestParentInTemporaryDirectoryPath();
+        $this->deleteDirectory($this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.$parentDirectory);
+    }
+
+    protected function getSystemTemporaryDirectory()
+    {
+        return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
+    }
+
+    protected function getHighestParentInTemporaryDirectoryPath(): string
+    {
+        $path = str_replace($this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR, '', $this->path);
+        return explode(DIRECTORY_SEPARATOR, $path)[0];
     }
 
     protected function removeFilenameFromPath(string $path): string
