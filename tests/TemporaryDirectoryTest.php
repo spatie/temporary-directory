@@ -34,7 +34,9 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_strips_trailing_slashes()
     {
-        // Todo: Add a test that proves that the `path` method strips trailing slashes
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectory);
+        $testingPath = $temporaryDirectory->path('testing'.DIRECTORY_SEPARATOR);
+        $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $testingPath);
     }
 
     /** @test */

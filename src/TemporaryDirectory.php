@@ -14,9 +14,8 @@ class TemporaryDirectory
         if (empty($path)) {
             $path = microtime();
         }
-        $this->path = $this->sanitizePath($path);
 
-        $this->path = $this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $this->path = $this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.$this->sanitizePath($path);
 
         if ($overwriteExistingDirectory && file_exists($this->path)) {
             $this->deleteDirectory($this->path);
@@ -50,8 +49,7 @@ class TemporaryDirectory
 
     public function delete()
     {
-        $parentDirectory = $this->getHighestParentInTemporaryDirectoryPath();
-        $this->deleteDirectory($this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.$parentDirectory);
+        $this->deleteDirectory($this->path);
     }
 
     protected function getSystemTemporaryDirectory()
@@ -59,18 +57,8 @@ class TemporaryDirectory
         return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
     }
 
-    protected function getHighestParentInTemporaryDirectoryPath(): string
-    {
-        $path = str_replace($this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR, '', $this->path);
-        return explode(DIRECTORY_SEPARATOR, $path)[0];
-    }
-
     protected function sanitizePath(string $path): string
     {
-        if (empty($path)) {
-            throw new InvalidArgumentException('The path argument can\'t be empty.');
-        }
-
         $path = rtrim($path);
 
         return rtrim($path, DIRECTORY_SEPARATOR);
