@@ -2,83 +2,106 @@
 
 namespace Spatie\TemporaryDirectory\Test;
 
+use InvalidArgumentException;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 {
-    protected $temporaryDirectory;
+    /** @var string */
     protected $testingDirectory = __DIR__.'/temp';
-    protected $temporaryDirectoryName;
+
+    /** @var string */
+    protected $temporaryDirectoryPath;
 
     public function setUp()
     {
         parent::setUp();
 
-        // Empty testing directory
-        $this->deleteDirectoryContents($this->testingDirectory);
+        $this->temporaryDirectoryPath = "{$this->testingDirectory}/temporary_directory";
 
-        // Create new instance of TemporaryDirectory
-        $this->temporaryDirectoryName = "{$this->testingDirectory}/temporary_directory";
-        $this->temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryName);
+        $this->deleteDirectory($this->temporaryDirectoryPath);
     }
 
     /** @test */
     public function it_can_create_a_temporary_directory()
     {
-        $this->assertDirectoryExists($this->temporaryDirectoryName);
+        new TemporaryDirectory($this->temporaryDirectoryPath);
+
+        $this->assertDirectoryExists($this->temporaryDirectoryPath);
+    }
+
+
+    /** @test */
+    public function by_default_it_will_not_overwrite_an_existing_directory()
+    {
+        mkdir($this->temporaryDirectoryPath);
+
+        $this->expectException(InvalidArgumentException::class);
+
+        new TemporaryDirectory($this->temporaryDirectoryPath);
     }
 
     /** @test */
     public function it_can_create_a_subdirectory_in_the_temporary_directory()
     {
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryPath);
+
         $subdirectory = 'abc';
-        $subdirectoryPath = $this->temporaryDirectory->path($subdirectory);
+        $subdirectoryPath = $temporaryDirectory->path($subdirectory);
 
         $this->assertDirectoryExists($subdirectoryPath);
-        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$subdirectory}");
+        $this->assertDirectoryExists("{$this->temporaryDirectoryPath}/{$subdirectory}");
     }
 
     /** @test */
     public function it_can_create_a_multiple_subdirectories_in_the_temporary_directory()
     {
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryPath);
+
         $subdirectories = 'abc/123/xyz';
-        $subdirectoryPath = $this->temporaryDirectory->path($subdirectories);
+        $subdirectoryPath = $temporaryDirectory->path($subdirectories);
 
         $this->assertDirectoryExists($subdirectoryPath);
-        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$subdirectories}");
+        $this->assertDirectoryExists("{$this->temporaryDirectoryPath}/{$subdirectories}");
     }
 
     /** @test */
     public function it_can_create_a_path_to_a_file_in_the_temporary_directory()
     {
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryPath);
+
         $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
-        $subdirectoryFilePath = $this->temporaryDirectory->path($subdirectoriesWithFile);
-        file_put_contents($subdirectoryFilePath, 'testing data');
+        $subdirectoryFilePath = $temporaryDirectory->path($subdirectoriesWithFile);
+        touch($subdirectoryFilePath);
 
         $this->assertFileExists($subdirectoryFilePath);
-        $this->assertFileExists("{$this->temporaryDirectoryName}/{$subdirectoriesWithFile}");
+        $this->assertFileExists("{$this->temporaryDirectoryPath}/{$subdirectoriesWithFile}");
     }
 
     /** @test */
-    public function it_can_delete_a_temporary_directory_with_files()
+    public function it_can_delete_a_temporary_directory_containing_files()
     {
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryPath);
+
         $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
-        $subdirectoryPath = $this->temporaryDirectory->path($subdirectoriesWithFile);
-        file_put_contents($subdirectoryPath, 'testing data');
-        $this->temporaryDirectory->delete();
+        $subdirectoryPath = $temporaryDirectory->path($subdirectoriesWithFile);
+        touch($subdirectoryPath);
+        $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryName);
+        $this->assertDirectoryNotExists($this->temporaryDirectoryPath);
     }
 
     /** @test */
-    public function it_can_delete_a_temporary_directory_without_files()
+    public function it_can_delete_a_temporary_directory_containing_no_content()
     {
-        $this->temporaryDirectory->delete();
+        $temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryPath);
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryName);
+        $temporaryDirectory->delete();
+
+        $this->assertDirectoryNotExists($this->temporaryDirectoryPath);
     }
 
-    protected function deleteDirectoryContents(string $path, bool $rootDirectory = true): bool
+    protected function deleteDirectory(string $path): bool
     {
         if (! file_exists($path)) {
             return true;
@@ -93,15 +116,11 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
 
-            if (! $this->deleteDirectoryContents($path.DIRECTORY_SEPARATOR.$item, false)) {
+            if (! $this->deleteDirectory($path.DIRECTORY_SEPARATOR.$item)) {
                 return false;
             }
         }
 
-        if (! $rootDirectory) {
-            return rmdir($path);
-        }
-
-        return true;
+        return rmdir($path);
     }
 }

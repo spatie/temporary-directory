@@ -15,13 +15,12 @@ Here's a quick example on how to create a temporary file and delete it:
 ```php
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-$temporaryDirectory = new TemporaryDirectory('temp');
+$temporaryDirectory = new TemporaryDirectory($basePath);
 
-// Create a logfile in temporary/logs/logfile.txt
-$logFile = $temporaryDirectory->path('logs/logfile.txt');
-file_put_contents($logFile, "log data");
+// Get a path inside the temporary directory
+$temporaryDirectory->path('temporaryfile.txt');
 
-// If you want to delete the temporary directory:
+// To delete the temporary directory and all the files inside it
 $temporaryDirectory->delete();
 ```
 
@@ -37,29 +36,26 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply create an instance of the TemporaryDirectory class and pass in the $path parameter. 
+To create a temporary directory simply create an instance of the `TemporaryDirectory`  and pass in a `$path`. 
 
-Optionally you can pass in the $overrideExisitingDirectory boolean.
+By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by passing `true` to `$overwriteExistingDirectory` of the constructor.
 
 ```php
-// public function create(string $path, bool $overrideExistingDirectory = true);
-$temporaryDirectory = new TemporaryDirectory('temporary_directory');
+// public function create(string $path, true);
 ```
 
-### Creating paths within the temporary directory
+### Determining paths within the temporary directory
 
-You can use the `path` method to get the full path to a file or directory in the temporary directory:
+You can use the `path` method to determine the full path to a file or directory in the temporary directory:
 
 ```php
 $temporaryDirectory = new TemporaryDirectory('temp');
-$dumpFile = $temporaryDirectory->path('dumps/datadump.dat');
-echo $dumpFile;
-// /full/path/to/temporary/directory/temp/dumps/datadump.dat
+$temporaryDirectory->path('dumps/datadump.dat'); // return  /full/path/to/temporary/directory/temp/dumps/datadump.dat
 ```
 
 ### Deleting a temporary folder
 
-Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method.
+Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside it will be deleted.
 
 ```php
 $temporaryDirectory->delete();
