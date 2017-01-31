@@ -10,21 +10,16 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     protected $testingDirectory = __DIR__.'/temp';
     protected $temporaryDirectoryName;
 
-    protected $subdirectory = 'abc';
-    protected $subdirectories = 'abc/321/xyz';
-    protected $subdirectoriesWithFile = 'abc/xyz/123/testfile.txt';
-
     public function setUp()
     {
         parent::setUp();
 
         // Empty testing directory
-        $this->deleteAllFilesExceptGitignore($this->testingDirectory);
+        $this->deleteDirectoryContents($this->testingDirectory);
 
         // Create new instance of TemporaryDirectory
-        $this->temporaryDirectory = new TemporaryDirectory();
         $this->temporaryDirectoryName = "{$this->testingDirectory}/temporary_directory";
-        $this->temporaryDirectory->create($this->temporaryDirectoryName);
+        $this->temporaryDirectory = new TemporaryDirectory($this->temporaryDirectoryName);
     }
 
     /** @test */
@@ -36,36 +31,40 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_create_a_subdirectory_in_the_temporary_directory()
     {
-        $subdirectoryPath = $this->temporaryDirectory->path($this->subdirectory);
+        $subdirectory = 'abc';
+        $subdirectoryPath = $this->temporaryDirectory->path($subdirectory);
 
         $this->assertDirectoryExists($subdirectoryPath);
-        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$this->subdirectory}");
+        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$subdirectory}");
     }
 
     /** @test */
     public function it_can_create_a_multiple_subdirectories_in_the_temporary_directory()
     {
-        $subdirectoryPath = $this->temporaryDirectory->path($this->subdirectories);
+        $subdirectories = 'abc/123/xyz';
+        $subdirectoryPath = $this->temporaryDirectory->path($subdirectories);
 
         $this->assertDirectoryExists($subdirectoryPath);
-        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$this->subdirectories}");
+        $this->assertDirectoryExists("{$this->temporaryDirectoryName}/{$subdirectories}");
     }
 
     /** @test */
     public function it_can_create_a_path_to_a_file_in_the_temporary_directory()
     {
-        $subdirectoryFilePath = $this->temporaryDirectory->path($this->subdirectoriesWithFile);
+        $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
+        $subdirectoryFilePath = $this->temporaryDirectory->path($subdirectoriesWithFile);
         file_put_contents($subdirectoryFilePath, 'testing data');
 
         $this->assertFileExists($subdirectoryFilePath);
-        $this->assertFileExists("{$this->temporaryDirectoryName}/{$this->subdirectoriesWithFile}");
+        $this->assertFileExists("{$this->temporaryDirectoryName}/{$subdirectoriesWithFile}");
     }
 
     /** @test */
     public function it_can_delete_a_temporary_directory_with_files()
     {
-        $subdirectoryPath = $this->temporaryDirectory->path($this->subdirectory);
-        file_put_contents("{$subdirectoryPath}/testfile.txt", 'testing data');
+        $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
+        $subdirectoryPath = $this->temporaryDirectory->path($subdirectoriesWithFile);
+        file_put_contents($subdirectoryPath, 'testing data');
         $this->temporaryDirectory->delete();
 
         $this->assertDirectoryNotExists($this->temporaryDirectoryName);
@@ -79,7 +78,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
         $this->assertDirectoryNotExists($this->temporaryDirectoryName);
     }
 
-    protected function deleteAllFilesExceptGitignore($path, $rootDirectory = true)
+    protected function deleteDirectoryContents(string $path, bool $rootDirectory = true): bool
     {
         if (! file_exists($path)) {
             return true;
@@ -94,11 +93,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
 
-            if ($item == '.gitignore' && $rootDirectory) {
-                continue;
-            }
-
-            if (! $this->deleteAllFilesExceptGitignore($path.DIRECTORY_SEPARATOR.$item, false)) {
+            if (! $this->deleteDirectoryContents($path.DIRECTORY_SEPARATOR.$item, false)) {
                 return false;
             }
         }

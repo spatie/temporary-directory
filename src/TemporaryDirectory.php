@@ -4,29 +4,16 @@ namespace Spatie\TemporaryDirectory;
 
 class TemporaryDirectory
 {
-    /**
-     * @var string The path to the temporary directory
-     */
+    /** @var string The path to the temporary directory */
     protected $path;
 
-    public function __construct()
-    {
-        // constructor body
-    }
-
-    /**
-     * Creates a new temporary directory at the given path.
-     * @param string $path The path where the temporary directory should be created.
-     * @param bool $overwriteExistingDirectory Should the temporary directory be removed if it already exists?
-     */
-    public function create(string $path = '', bool $overwriteExistingDirectory = true)
+    public function __construct(string $path, bool $overwriteExistingDirectory = true)
     {
         if (empty($path)) {
-            // No path for temp dir given; use current directory
-            $path .= __DIR__.'/temp/';
+            throw new \InvalidArgumentException('The path argument is missing.');
         }
 
-        $this->path = rtrim($path).'/';
+        $this->path = rtrim($path).DIRECTORY_SEPARATOR;
 
         if ($overwriteExistingDirectory && file_exists($this->path())) {
             $this->deleteDirectory($this->path);
@@ -37,7 +24,7 @@ class TemporaryDirectory
         }
     }
 
-    public function path(string $pathOrFilename = '')
+    public function path(string $pathOrFilename = ''): string
     {
         $path = $this->path.trim($pathOrFilename, '/');
         $directoryPath = $this->removeFilenameFromPath($path);
@@ -49,36 +36,30 @@ class TemporaryDirectory
         return $path;
     }
 
-    /**
-     * Deletes the temporary directory.
-     */
     public function delete()
     {
-        if (file_exists($this->path)) {
-            $this->deleteDirectory($this->path);
+        if (! file_exists($this->path)) {
+            return;
         }
+
+        $this->deleteDirectory($this->path);
     }
 
-    protected function removeFilenameFromPath($path)
+    protected function removeFilenameFromPath(string $path): string
     {
         if (! $this->isFilePath($path)) {
             return $path;
         }
 
-        return substr($path, 0, strrpos($path, '/'));
+        return substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR));
     }
 
-    protected function isFilePath($path)
+    protected function isFilePath(string $path):bool
     {
-        // If a dot is found in the path; it's probably a path to a file
         return strpos($path, '.') !== false;
     }
 
-    /**
-     * @param $path Deletes the given directory including all subdirectories and files
-     * @return bool Success
-     */
-    protected function deleteDirectory($path)
+    protected function deleteDirectory(string $path): bool
     {
         if (! file_exists($path)) {
             return true;
