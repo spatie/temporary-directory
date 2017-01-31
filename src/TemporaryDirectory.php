@@ -2,21 +2,27 @@
 
 namespace Spatie\TemporaryDirectory;
 
+use InvalidArgumentException;
+
 class TemporaryDirectory
 {
-    /** @var string The path to the temporary directory */
+    /** @var string */
     protected $path;
 
-    public function __construct(string $path, bool $overwriteExistingDirectory = true)
+    public function __construct(string $path, bool $overwriteExistingDirectory = false)
     {
         if (empty($path)) {
-            throw new \InvalidArgumentException('The path argument is missing.');
+            throw new InvalidArgumentException('The path argument is missing.');
         }
 
         $this->path = rtrim($path).DIRECTORY_SEPARATOR;
 
-        if ($overwriteExistingDirectory && file_exists($this->path())) {
+        if ($overwriteExistingDirectory && file_exists($this->path)) {
             $this->deleteDirectory($this->path);
+        }
+
+        if (! $overwriteExistingDirectory && file_exists($this->path)) {
+            throw new InvalidArgumentException("Path `{$path}` already exists.");
         }
 
         if (! file_exists($this->path)) {
