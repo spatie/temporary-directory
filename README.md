@@ -41,7 +41,7 @@ To create a temporary directory simply create an instance of the `TemporaryDirec
 By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by passing `true` to `$overwriteExistingDirectory` of the constructor.
 
 ```php
-// public function create(string $path, true);
+new TemporaryDirectory(string $path, true);
 ```
 
 ### Determining paths within the temporary directory
@@ -55,10 +55,17 @@ $temporaryDirectory->path('dumps/datadump.dat'); // return  /full/path/to/tempor
 
 ### Deleting a temporary folder
 
-Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside it will be deleted.
+Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted. 
 
 ```php
 $temporaryDirectory->delete();
+```
+
+Please note when calling `delete` on an instance of `TemporaryDirectory` it will only delete the deepest nested subdirectory of the original path. For example:
+
+```php
+$temporaryDirectory = new TemporaryDirectory('storage/temporary/data');
+$temporaryDirectory->delete(); // Will delete the `data` directory and all its contents but not the `storage` or `temp` directory
 ```
 
 ## Changelog
