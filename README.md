@@ -15,7 +15,7 @@ Here's a quick example on how to create a temporary file and delete it:
 ```php
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-$temporaryDirectory = new TemporaryDirectory($basePath);
+$temporaryDirectory = TemporaryDirectory::create($basePath);
 
 // Get a path inside the temporary directory
 $temporaryDirectory->path('temporaryfile.txt');
@@ -36,12 +36,16 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply create an instance of the `TemporaryDirectory`  and optionally pass in a `$path`. If a `$path` is not provided `TemporaryDirectory` will use a timestamp as the directory name.
-
-By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by passing `true` to `$overwriteExistingDirectory` of the constructor.
+To create a temporary directory simply use the static `create` method of the `TemporaryDirectory` and optionally pass in a `$path`. If a `$path` is not provided `TemporaryDirectory` will use a timestamp as the directory name.
 
 ```php
-new TemporaryDirectory(string $path, true);
+TemporaryDirectory::create(string $path);
+```
+
+By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by using the `forceCreate` method.
+
+```php
+TemporaryDirectory::forceCreate(string $path);
 ```
 
 ### Determining paths within the temporary directory
@@ -49,8 +53,16 @@ new TemporaryDirectory(string $path, true);
 You can use the `path` method to determine the full path to a file or directory in the temporary directory:
 
 ```php
-$temporaryDirectory = new TemporaryDirectory('temporary');
+$temporaryDirectory = TemporaryDirectory::create('temporary');
 $temporaryDirectory->path('dumps/datadump.dat'); // return  /tmp/temporary/dumps/datadump.dat
+```
+
+### Emptying a temporary folder
+
+Use the `empty` method to delete all the files inside the temporary directory.
+
+```php
+$temporaryDirectory->empty();
 ```
 
 ### Deleting a temporary folder
@@ -64,7 +76,7 @@ $temporaryDirectory->delete();
 Please note when calling `delete` on an instance of `TemporaryDirectory` it will only delete the deepest nested subdirectory of the original path. For example:
 
 ```php
-$temporaryDirectory = new TemporaryDirectory('storage/temporary/data');
+$temporaryDirectory = TemporaryDirectory::create('storage/temporary/data');
 
 // Will only delete the `data` directory, `storage` and `temporary` still exist
 $temporaryDirectory->delete();
