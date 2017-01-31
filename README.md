@@ -13,9 +13,9 @@ This package allows you to quickly create, use and possibly delete a temporary d
 Here's a quick example on how to create a temporary file and delete it:
 
 ```php
-// Create a new temporary directory in temp/ by default
-$temporaryDirectory = new Spatie\TemporaryDirectory\TemporaryDirectory();
-$temporaryDirectory->create();
+use Spatie\TemporaryDirectory\TemporaryDirectory;
+
+$temporaryDirectory = new TemporaryDirectory('temp');
 
 // Create a logfile in temporary/logs/logfile.txt
 $logFile = $temporaryDirectory->path('logs/logfile.txt');
@@ -37,13 +37,13 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-You can create a temporary directory using the `create` method. 
+To create a temporary directory simply create an instance of the TemporaryDirectory class and pass in the $path parameter. 
 
-By default the temporary directory will be created in `__DIR__/temp/`. This can be overridden by passing in a path as the optional $path parameter.
+Optionally you can pass in the $overrideExisitingDirectory boolean.
 
 ```php
-// public function create(string $path);
-$temporaryDirectory->create(__DIR__ . '/temporary_directory');
+// public function create(string $path, bool $overrideExistingDirectory = true);
+$temporaryDirectory = new TemporaryDirectory('temporary_directory');
 ```
 
 ### Creating paths within the temporary directory
@@ -51,7 +51,7 @@ $temporaryDirectory->create(__DIR__ . '/temporary_directory');
 You can use the `path` method to get the full path to a file or directory in the temporary directory:
 
 ```php
-$temporaryDirectory->create();
+$temporaryDirectory = new TemporaryDirectory('temp');
 $dumpFile = $temporaryDirectory->path('dumps/datadump.dat');
 echo $dumpFile;
 // /full/path/to/temporary/directory/temp/dumps/datadump.dat
