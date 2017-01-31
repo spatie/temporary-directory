@@ -32,12 +32,12 @@ class TemporaryDirectory
 
     public static function create($path)
     {
-        return new TemporaryDirectory($path, false);
+        return new self($path, false);
     }
 
     public static function forceCreate($path)
     {
-        return new TemporaryDirectory($path, true);
+        return new self($path, true);
     }
 
     public function path(string $pathOrFilename = ''): string
@@ -57,7 +57,8 @@ class TemporaryDirectory
         return $path;
     }
 
-    public function empty() {
+    public function empty()
+    {
         $this->deleteDirectory($this->path);
         mkdir($this->path);
     }
