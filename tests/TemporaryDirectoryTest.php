@@ -60,6 +60,16 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_provides_chainable_create_methods()
+    {
+        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
+
+        $temporaryDirectory = TemporaryDirectory::forceCreate($this->temporaryDirectory);
+        $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
+    }
+
+    /** @test */
     public function it_can_create_a_subdirectory_in_the_temporary_directory()
     {
         $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
