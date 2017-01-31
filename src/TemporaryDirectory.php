@@ -30,12 +30,12 @@ class TemporaryDirectory
         }
     }
 
-    public static function create($path)
+    public static function create(string $path): TemporaryDirectory
     {
         return new TemporaryDirectory($path, false);
     }
 
-    public static function forceCreate($path)
+    public static function forceCreate(string $path): TemporaryDirectory
     {
         return new TemporaryDirectory($path, true);
     }
