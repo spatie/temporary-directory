@@ -44,10 +44,6 @@ class TemporaryDirectory
 
     public function delete()
     {
-        if (! file_exists($this->path)) {
-            return;
-        }
-
         $this->deleteDirectory($this->path);
     }
 
