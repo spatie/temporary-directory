@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/80403728/shield?branch=master)](https://styleci.io/repos/80403728)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
 
-This package allows you to quickly create, use and possibly delete a temporary directory. 
+This package allows you to quickly create, use and delete a temporary directory.
 
 Here's a quick example on how to create a temporary file and delete it:
 
@@ -36,7 +36,7 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply create an instance of the `TemporaryDirectory`  and pass in a `$path`. 
+To create a temporary directory simply create an instance of the `TemporaryDirectory`  and pass in a `$path`.
 
 By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by passing `true` to `$overwriteExistingDirectory` of the constructor.
 
@@ -55,7 +55,7 @@ $temporaryDirectory->path('dumps/datadump.dat'); // return  /full/path/to/tempor
 
 ### Deleting a temporary folder
 
-Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted. 
+Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted.
 
 ```php
 $temporaryDirectory->delete();
@@ -65,7 +65,9 @@ Please note when calling `delete` on an instance of `TemporaryDirectory` it will
 
 ```php
 $temporaryDirectory = new TemporaryDirectory('storage/temporary/data');
-$temporaryDirectory->delete(); // Will delete the `data` directory and all its contents but not the `storage` or `temp` directory
+
+// Will only delete the `data` directory, `storage` and `temporary` still exist
+$temporaryDirectory->delete();
 ```
 
 ## Changelog
@@ -100,6 +102,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 - [All Contributors](../../contributors)
 
 ## About Spatie
+
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## License
