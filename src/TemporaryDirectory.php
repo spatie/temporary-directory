@@ -19,8 +19,7 @@ class TemporaryDirectory
     /** @return $this */
     public function create()
     {
-        if (empty($this->location))
-        {
+        if (empty($this->location)) {
             $this->location = $this->getSystemTemporaryDirectory();
         }
 
@@ -113,7 +112,7 @@ class TemporaryDirectory
 
     protected function isValidDirectoryName(string $directoryName): bool
     {
-        return strpbrk($directoryName, "\\/?%*:|\"<>") === FALSE;
+        return strpbrk($directoryName, '\\/?%*:|"<>') === false;
     }
 
     protected function getSystemTemporaryDirectory(): string
@@ -130,8 +129,7 @@ class TemporaryDirectory
 
     protected function sanitizeName(string $name): string
     {
-        if(! $this->isValidDirectoryName($name))
-        {
+        if (! $this->isValidDirectoryName($name)) {
             throw new Exception("The directory name `$name` contains invalid characters.");
         }
 
