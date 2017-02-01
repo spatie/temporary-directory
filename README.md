@@ -15,7 +15,7 @@ Here's a quick example on how to create a temporary file and delete it:
 ```php
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-$temporaryDirectory = TemporaryDirectory::create($basePath);
+$temporaryDirectory = (new TemporaryDirectory())->create();
 
 // Get a path inside the temporary directory
 $temporaryDirectory->path('temporaryfile.txt');
@@ -36,16 +36,32 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply use the static `create` method of the `TemporaryDirectory` and optionally pass in a `$path`. If a `$path` is not provided `TemporaryDirectory` will use a timestamp as the directory name.
+To create a temporary directory simply call the `create` method of the `TemporaryDirectory`. By default the temporary directory will be created in a timestamped directory in your system's temporary directory (usually `/tmp`).
 
 ```php
-TemporaryDirectory::create(string $path);
+(new TemporaryDirectory())->create();
 ```
 
-By default an exception will be thrown when if a directory already exists at the given `$path`. You can override this behaviour by using the `forceCreate` method.
+### Naming your temporary directory
+
+If you want to use a custom name for your temporary directory instead of the timestamp call the `name` method before the `create` method.
 
 ```php
-TemporaryDirectory::forceCreate(string $path);
+(new TemporaryDirectory())->name(string $name)->create();
+```
+
+By default an exception will be thrown when if a directory already exists with the given `$name`. You can override this behaviour by calling the `force` method in combination with the `name` method.
+
+```php
+(new TemporaryDirectory())->name(string $name)->force()->create();
+```
+
+### Setting a custom location for a temporary directory
+
+You can set a custom location in which your temporary directory will be created by calling the `location` method and providing the `$path` argument.
+
+```php
+(new TemporaryDirectory())->location(string $path)->create();
 ```
 
 ### Determining paths within the temporary directory
@@ -53,8 +69,8 @@ TemporaryDirectory::forceCreate(string $path);
 You can use the `path` method to determine the full path to a file or directory in the temporary directory:
 
 ```php
-$temporaryDirectory = TemporaryDirectory::create('temporary');
-$temporaryDirectory->path('dumps/datadump.dat'); // return  /tmp/temporary/dumps/datadump.dat
+$temporaryDirectory = (new TemporaryDirectory())->create();
+$temporaryDirectory->path('dumps/datadump.dat'); // return  /tmp/1485941876276/dumps/datadump.dat
 ```
 
 ### Emptying a temporary folder
@@ -70,15 +86,6 @@ $temporaryDirectory->empty();
 Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted.
 
 ```php
-$temporaryDirectory->delete();
-```
-
-Please note when calling `delete` on an instance of `TemporaryDirectory` it will only delete the deepest nested subdirectory of the original path. For example:
-
-```php
-$temporaryDirectory = TemporaryDirectory::create('storage/temporary/data');
-
-// Will only delete the `data` directory, `storage` and `temporary` still exist
 $temporaryDirectory->delete();
 ```
 
