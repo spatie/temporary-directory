@@ -55,7 +55,7 @@ class TemporaryDirectory
      *
      *  @return $this
      */
-    public function name($name)
+    public function name(string $name)
     {
         $this->name = $this->sanitizeName($name);
 
@@ -67,7 +67,7 @@ class TemporaryDirectory
      *
      *  @return $this
      */
-    public function location($location)
+    public function location(string $location)
     {
         $this->location = $this->sanitizePath($location);
 
