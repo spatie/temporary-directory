@@ -20,7 +20,7 @@ $temporaryDirectory = (new TemporaryDirectory())->create();
 // Get a path inside the temporary directory
 $temporaryDirectory->path('temporaryfile.txt');
 
-// To delete the temporary directory and all the files inside it
+// Delete the temporary directory and all the files inside it
 $temporaryDirectory->delete();
 ```
 
@@ -47,13 +47,18 @@ To create a temporary directory simply call the `create` method of the `Temporar
 If you want to use a custom name for your temporary directory instead of the timestamp call the `name` method before the `create` method.
 
 ```php
-(new TemporaryDirectory())->name(string $name)->create();
+(new TemporaryDirectory())
+   ->name(string $name)
+   ->create();
 ```
 
 By default an exception will be thrown when if a directory already exists with the given `$name`. You can override this behaviour by calling the `force` method in combination with the `name` method.
 
 ```php
-(new TemporaryDirectory())->name(string $name)->force()->create();
+(new TemporaryDirectory())
+   ->name(string $name)
+   ->force()
+   ->create();
 ```
 
 ### Setting a custom location for a temporary directory
@@ -61,7 +66,9 @@ By default an exception will be thrown when if a directory already exists with t
 You can set a custom location in which your temporary directory will be created by calling the `location` method and providing the `$path` argument.
 
 ```php
-(new TemporaryDirectory())->location(string $path)->create();
+(new TemporaryDirectory())
+   ->location(string $path)
+   ->create();
 ```
 
 ### Determining paths within the temporary directory
