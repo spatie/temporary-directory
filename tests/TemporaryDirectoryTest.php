@@ -58,7 +58,18 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_strips_trailing_slashes()
+    public function it_can_create_a_temporary_directory_in_a_custom_location_through_the_constructor()
+    {
+        $temporaryDirectory = (new TemporaryDirectory($this->testingDirectory))
+            ->name($this->temporaryDirectory)
+            ->create();
+
+        $this->assertDirectoryExists($temporaryDirectory->path());
+        $this->assertDirectoryExists($this->testingDirectory.DIRECTORY_SEPARATOR.$this->temporaryDirectory);
+    }
+
+    /** @test */
+    public function it_strips_trailing_slashes_from_a_path()
     {
         $temporaryDirectory = (new TemporaryDirectory())
             ->name($this->temporaryDirectory)
@@ -66,6 +77,21 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 
         $testingPath = $temporaryDirectory->path('testing'.DIRECTORY_SEPARATOR);
         $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $testingPath);
+    }
+
+    /** @test */
+    public function it_strips_trailing_slashes_from_a_location()
+    {
+        $temporaryDirectory = (new TemporaryDirectory($this->testingDirectory.DIRECTORY_SEPARATOR))
+            ->create();
+
+        $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $temporaryDirectory->path());
+
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->location($this->temporaryDirectory.DIRECTORY_SEPARATOR)
+            ->create();
+
+        $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $temporaryDirectory->path());
     }
 
     /** @test */
@@ -102,7 +128,11 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
 
-        $temporaryDirectory = (new TemporaryDirectory())->force()->name($this->temporaryDirectory)->create();
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->name($this->temporaryDirectory)
+            ->force()
+            ->create();
+
         $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
     }
 

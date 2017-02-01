@@ -16,6 +16,11 @@ class TemporaryDirectory
     /** @var bool */
     protected $forceCreate = false;
 
+    public function __construct(string $location = '')
+    {
+        $this->location = $this->sanitizePath($location);
+    }
+
     /** @return $this */
     public function create()
     {

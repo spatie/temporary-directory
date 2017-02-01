@@ -63,11 +63,18 @@ By default an exception will be thrown when if a directory already exists with t
 
 ### Setting a custom location for a temporary directory
 
-You can set a custom location in which your temporary directory will be created by calling the `location` method and providing the `$path` argument.
+You can set a custom location in which your temporary directory will be created by passing the `$location` argument to the `TemporaryDirectory` constructor.
+
+```php
+(new TemporaryDirectory(string $location))
+   ->create();
+```
+
+Optionally you can call the `location` method with a `$location` argument.
 
 ```php
 (new TemporaryDirectory())
-   ->location(string $path)
+   ->location(string $location)
    ->create();
 ```
 

@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.1.0 - 2017-02-01
+
+- added optional $location argument in `TemporaryDirectory` constructor
+
 ## 1.0.0 - 2017-02-01
 
 - initial release
