@@ -2,51 +2,86 @@
 
 namespace Spatie\TemporaryDirectory;
 
+use Exception;
 use InvalidArgumentException;
 
 class TemporaryDirectory
 {
     /** @var string */
-    protected $path;
+    protected $location;
 
-    public function __construct(string $path, bool $overwriteExistingDirectory = false)
+    /** @var string */
+    protected $name;
+
+    /** @var bool */
+    protected $forceCreate = false;
+
+    /** @return $this */
+    public function create()
     {
-        if (empty($path)) {
-            $path = microtime();
+        if (empty($this->location))
+        {
+            $this->location = $this->getSystemTemporaryDirectory();
         }
 
-        $this->path = $this->getSystemTemporaryDirectory().DIRECTORY_SEPARATOR.$this->sanitizePath($path);
-
-        if ($overwriteExistingDirectory && file_exists($this->path)) {
-            $this->deleteDirectory($this->path);
+        if (empty($this->name)) {
+            $this->name = microtime();
         }
 
-        if (! $overwriteExistingDirectory && file_exists($this->path)) {
-            throw new InvalidArgumentException("Path `{$path}` already exists.");
+        if ($this->forceCreate && file_exists($this->getFullPath())) {
+            $this->deleteDirectory($this->getFullPath());
         }
 
-        if (! file_exists($this->path)) {
-            mkdir($this->path, 0777, true);
+        if (file_exists($this->getFullPath())) {
+            throw new InvalidArgumentException("Path `{$this->getFullPath()}` already exists.");
         }
+
+        if (! file_exists($this->getFullPath())) {
+            mkdir($this->getFullPath(), 0777, true);
+        }
+
+        return $this;
     }
 
-    public static function create(string $path): TemporaryDirectory
+    /** @return $this */
+    public function force()
     {
-        return new static($path, false);
+        $this->forceCreate = true;
+
+        return $this;
     }
 
-    public static function forceCreate(string $path): TemporaryDirectory
+    /**
+     *  @param string $name
+     *
+     *  @return $this
+     */
+    public function name($name)
     {
-        return new static($path, true);
+        $this->name = $this->sanitizeName($name);
+
+        return $this;
+    }
+
+    /**
+     *  @param string $location
+     *
+     *  @return $this
+     */
+    public function location($location)
+    {
+        $this->location = $this->sanitizePath($location);
+
+        return $this;
     }
 
     public function path(string $pathOrFilename = ''): string
     {
         if (empty($pathOrFilename)) {
-            return $this->path;
+            return $this->getFullPath();
         }
 
-        $path = $this->path.DIRECTORY_SEPARATOR.trim($pathOrFilename, '/');
+        $path = $this->getFullPath().DIRECTORY_SEPARATOR.trim($pathOrFilename, '/');
 
         $directoryPath = $this->removeFilenameFromPath($path);
 
@@ -60,18 +95,28 @@ class TemporaryDirectory
     /** @return $this */
     public function empty()
     {
-        $this->deleteDirectory($this->path);
-        mkdir($this->path);
+        $this->deleteDirectory($this->getFullPath());
+        mkdir($this->getFullPath());
 
         return $this;
     }
 
     public function delete()
     {
-        $this->deleteDirectory($this->path);
+        $this->deleteDirectory($this->getFullPath());
     }
 
-    protected function getSystemTemporaryDirectory()
+    protected function getFullPath(): string
+    {
+        return $this->location.DIRECTORY_SEPARATOR.$this->name;
+    }
+
+    protected function isValidDirectoryName(string $directoryName): bool
+    {
+        return strpbrk($directoryName, "\\/?%*:|\"<>") === FALSE;
+    }
+
+    protected function getSystemTemporaryDirectory(): string
     {
         return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
     }
@@ -81,6 +126,16 @@ class TemporaryDirectory
         $path = rtrim($path);
 
         return rtrim($path, DIRECTORY_SEPARATOR);
+    }
+
+    protected function sanitizeName(string $name): string
+    {
+        if(! $this->isValidDirectoryName($name))
+        {
+            throw new Exception("The directory name `$name` contains invalid characters.");
+        }
+
+        return trim($name);
     }
 
     protected function removeFilenameFromPath(string $path): string

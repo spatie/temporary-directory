@@ -8,7 +8,10 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var string */
-    protected $temporaryDirectory;
+    protected $temporaryDirectory = 'temporary_directory';
+
+    /** @var string */
+    protected $testingDirectory = __DIR__.DIRECTORY_SEPARATOR.'temp';
 
     /** @var string */
     protected $temporaryDirectoryFullPath;
@@ -17,24 +20,42 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->temporaryDirectory = 'temporary_directory/test';
         $this->temporaryDirectoryFullPath = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$this->temporaryDirectory;
 
+        $this->deleteDirectory($this->testingDirectory);
         $this->deleteDirectory($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
     public function it_can_create_a_temporary_directory()
     {
-        TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->create();
 
+        $this->assertDirectoryExists($temporaryDirectory->path());
+    }
+
+    /** @test */
+    public function it_can_create_a_temporary_directory_with_a_name()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
+
+        $this->assertDirectoryExists($temporaryDirectory->path());
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
+    }
+
+    /** @test */
+    public function it_can_create_a_temporary_directory_in_a_custom_location()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())->location($this->testingDirectory)->name($this->temporaryDirectory)->create();
+
+        $this->assertDirectoryExists($temporaryDirectory->path());
+        $this->assertDirectoryExists($this->testingDirectory.DIRECTORY_SEPARATOR.$this->temporaryDirectory);
     }
 
     /** @test */
     public function it_strips_trailing_slashes()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
         $testingPath = $temporaryDirectory->path('testing'.DIRECTORY_SEPARATOR);
         $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $testingPath);
     }
@@ -46,7 +67,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        TemporaryDirectory::create($this->temporaryDirectory);
+        (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
     }
 
     /** @test */
@@ -54,7 +75,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     {
         mkdir($this->temporaryDirectoryFullPath);
 
-        TemporaryDirectory::forceCreate($this->temporaryDirectory);
+        (new TemporaryDirectory())->force()->name($this->temporaryDirectory)->create();
 
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
     }
@@ -62,17 +83,17 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_provides_chainable_create_methods()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
         $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
 
-        $temporaryDirectory = TemporaryDirectory::forceCreate($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->force()->name($this->temporaryDirectory)->create();
         $this->assertInstanceOf(TemporaryDirectory::class, $temporaryDirectory);
     }
 
     /** @test */
     public function it_can_create_a_subdirectory_in_the_temporary_directory()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $subdirectory = 'abc';
         $subdirectoryPath = $temporaryDirectory->path($subdirectory);
@@ -84,7 +105,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_create_a_multiple_subdirectories_in_the_temporary_directory()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $subdirectories = 'abc/123/xyz';
         $subdirectoryPath = $temporaryDirectory->path($subdirectories);
@@ -96,7 +117,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_create_a_path_to_a_file_in_the_temporary_directory()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
         $subdirectoryFilePath = $temporaryDirectory->path($subdirectoriesWithFile);
@@ -109,7 +130,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_delete_a_temporary_directory_containing_files()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
         $subdirectoryPath = $temporaryDirectory->path($subdirectoriesWithFile);
@@ -122,7 +143,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_delete_a_temporary_directory_containing_no_content()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $temporaryDirectory->delete();
 
@@ -132,7 +153,7 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_empty_a_temporary_directory()
     {
-        $temporaryDirectory = TemporaryDirectory::create($this->temporaryDirectory);
+        $temporaryDirectory = (new TemporaryDirectory())->name($this->temporaryDirectory)->create();
 
         $subdirectoriesWithFile = 'abc/123/xyz/test.txt';
         $subdirectoryPath = $temporaryDirectory->path($subdirectoriesWithFile);
