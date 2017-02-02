@@ -46,6 +46,14 @@ class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_does_not_generate_spaces_in_directory_path()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+
+        $this->assertEquals(0, substr_count($temporaryDirectory->path(), ' '));
+    }
+
+    /** @test */
     public function it_can_create_a_temporary_directory_in_a_custom_location()
     {
         $temporaryDirectory = (new TemporaryDirectory())
