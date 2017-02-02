@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.1.2 - 2017-02-02
+
+- do not use periods when generating a name for the temporary directory
+
 ## 1.1.1 - 2017-02-02
 
 - do not use spaces when generating a name for the temporary directory
