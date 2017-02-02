@@ -1,6 +1,6 @@
 {
     "name": "spatie/temporary-directory",
-    "description": "The `temporary-directory` package allows you to easily create, use and destroy temporary directories.",
+    "description": "Easily create, use and destroy temporary directories",
     "keywords": [
         "spatie",
         "temporary-directory"
