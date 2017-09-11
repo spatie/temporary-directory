@@ -112,7 +112,7 @@ class TemporaryDirectory
 
     protected function getFullPath(): string
     {
-        return $this->location.DIRECTORY_SEPARATOR.$this->name;
+        return $this->location.($this->name ? DIRECTORY_SEPARATOR.$this->name : '');
     }
 
     protected function isValidDirectoryName(string $directoryName): bool
