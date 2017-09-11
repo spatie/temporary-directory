@@ -3,9 +3,10 @@
 namespace Spatie\TemporaryDirectory\Test;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-class TemporaryDirectoryTest extends \PHPUnit_Framework_TestCase
+class TemporaryDirectoryTest extends TestCase
 {
     /** @var string */
     protected $temporaryDirectory = 'temporary_directory';
