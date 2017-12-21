@@ -55,6 +55,16 @@ class TemporaryDirectory
         return $this;
     }
 
+    /** @return $this */
+    public function forceAutodestruct()
+    {
+        register_shutdown_function(function () {
+            $this->delete();
+        });
+
+        return $this;
+    }
+
     /**
      *  @param string $name
      *
