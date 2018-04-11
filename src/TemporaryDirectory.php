@@ -21,8 +21,7 @@ class TemporaryDirectory
         $this->location = $this->sanitizePath($location);
     }
 
-    /** @return $this */
-    public function create()
+    public function create(): self
     {
         if (empty($this->location)) {
             $this->location = $this->getSystemTemporaryDirectory();
@@ -47,32 +46,21 @@ class TemporaryDirectory
         return $this;
     }
 
-    /** @return $this */
-    public function force()
+    public function force(): self
     {
         $this->forceCreate = true;
 
         return $this;
     }
 
-    /**
-     *  @param string $name
-     *
-     *  @return $this
-     */
-    public function name(string $name)
+    public function name(string $name): self
     {
         $this->name = $this->sanitizeName($name);
 
         return $this;
     }
 
-    /**
-     *  @param string $location
-     *
-     *  @return $this
-     */
-    public function location(string $location)
+    public function location(string $location): self
     {
         $this->location = $this->sanitizePath($location);
 
@@ -96,8 +84,7 @@ class TemporaryDirectory
         return $path;
     }
 
-    /** @return $this */
-    public function empty()
+    public function empty(): self
     {
         $this->deleteDirectory($this->getFullPath());
         mkdir($this->getFullPath());
@@ -105,9 +92,9 @@ class TemporaryDirectory
         return $this;
     }
 
-    public function delete()
+    public function delete(): bool
     {
-        $this->deleteDirectory($this->getFullPath());
+        return $this->deleteDirectory($this->getFullPath());
     }
 
     protected function getFullPath(): string
