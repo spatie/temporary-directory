@@ -40,9 +40,7 @@ class TemporaryDirectory
             throw new InvalidArgumentException("Path `{$this->getFullPath()}` already exists.");
         }
 
-        if (! file_exists($this->getFullPath())) {
-            mkdir($this->getFullPath(), 0777, true);
-        }
+        mkdir($this->getFullPath(), 0777, true);
 
         return $this;
     }
