@@ -5,7 +5,7 @@ namespace Spatie\TemporaryDirectory;
 use Exception;
 use InvalidArgumentException;
 
-class TemporaryDirectory
+final class TemporaryDirectory
 {
     /** @var string */
     protected $location;
