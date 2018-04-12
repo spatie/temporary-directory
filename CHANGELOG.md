@@ -2,7 +2,7 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
-## 1.1.3 - 2018-04-13
+## 1.1.4 - 2018-04-13
 
 - use return types instead of php-doc-tags
 
