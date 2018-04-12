@@ -23,8 +23,8 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->temporaryDirectoryFullPath = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$this->temporaryDirectory;
 
-        $this->deleteDirectory($this->testingDirectory);
-        $this->deleteDirectory($this->temporaryDirectoryFullPath);
+        $this->deleteDirectoryRecursive($this->testingDirectory);
+        $this->deleteDirectoryRecursive($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -231,7 +231,7 @@ class TemporaryDirectoryTest extends TestCase
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
     }
 
-    protected function deleteDirectory(string $path): bool
+    protected function deleteDirectoryRecursive(string $path): bool
     {
         if (! file_exists($path)) {
             return true;
@@ -246,7 +246,7 @@ class TemporaryDirectoryTest extends TestCase
                 continue;
             }
 
-            if (! $this->deleteDirectory($path.DIRECTORY_SEPARATOR.$item)) {
+            if (! $this->deleteDirectoryRecursive($path.DIRECTORY_SEPARATOR.$item)) {
                 return false;
             }
         }

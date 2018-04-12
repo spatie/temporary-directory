@@ -32,7 +32,7 @@ class TemporaryDirectory
         }
 
         if ($this->forceCreate && file_exists($this->getFullPath())) {
-            $this->deleteDirectory($this->getFullPath());
+            $this->deleteDirectoryRecursive($this->getFullPath());
         }
 
         if (file_exists($this->getFullPath())) {
@@ -84,7 +84,7 @@ class TemporaryDirectory
 
     public function empty(): self
     {
-        $this->deleteDirectory($this->getFullPath());
+        $this->deleteDirectoryRecursive($this->getFullPath());
         mkdir($this->getFullPath());
 
         return $this;
@@ -92,7 +92,7 @@ class TemporaryDirectory
 
     public function delete(): bool
     {
-        return $this->deleteDirectory($this->getFullPath());
+        return $this->deleteDirectoryRecursive($this->getFullPath());
     }
 
     protected function getFullPath(): string
@@ -140,7 +140,7 @@ class TemporaryDirectory
         return strpos($path, '.') !== false;
     }
 
-    protected function deleteDirectory(string $path): bool
+    protected function deleteDirectoryRecursive(string $path): bool
     {
         if (! file_exists($path)) {
             return true;
@@ -155,7 +155,7 @@ class TemporaryDirectory
                 continue;
             }
 
-            if (! $this->deleteDirectory($path.DIRECTORY_SEPARATOR.$item)) {
+            if (! $this->deleteDirectoryRecursive($path.DIRECTORY_SEPARATOR.$item)) {
                 return false;
             }
         }
