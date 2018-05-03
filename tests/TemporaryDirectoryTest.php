@@ -231,6 +231,24 @@ class TemporaryDirectoryTest extends TestCase
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
     }
 
+    /** @test */
+    public function it_throws_exception_on_invalid_name()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The directory name `/` contains invalid characters.');
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->name('/');
+    }
+
+    /** @test */
+    public function it_should_return_true_on_deleted_file_is_not_existed()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->delete();
+
+        $this->assertTrue($temporaryDirectory);
+    }
+
     protected function deleteDirectory(string $path): bool
     {
         if (! file_exists($path)) {
