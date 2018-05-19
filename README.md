@@ -9,7 +9,7 @@
 
 This package allows you to quickly create, use and delete a temporary directory in the system's temporary directory.
 
-Here's a quick example on how to create a temporary file and delete it:
+Here's a quick example on how to create a temporary directory and delete it:
 
 ```php
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -35,7 +35,7 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply call the `create` method of the `TemporaryDirectory`. By default the temporary directory will be created in a timestamped directory in your system's temporary directory (usually `/tmp`).
+To create a temporary directory simply call the `create` method on a `TemporaryDirectory` object. By default the temporary directory will be created in a timestamped directory in your system's temporary directory (usually `/tmp`).
 
 ```php
 (new TemporaryDirectory())->create();
@@ -51,7 +51,7 @@ If you want to use a custom name for your temporary directory instead of the tim
    ->create();
 ```
 
-By default an exception will be thrown when if a directory already exists with the given `$name`. You can override this behaviour by calling the `force` method in combination with the `name` method.
+By default an exception will be thrown if a directory already exists with the given `$name`. You can override this behaviour by calling the `force` method in combination with the `name` method.
 
 ```php
 (new TemporaryDirectory())
@@ -86,7 +86,7 @@ $temporaryDirectory = (new TemporaryDirectory())->create();
 $temporaryDirectory->path('dumps/datadump.dat'); // return  /tmp/1485941876276/dumps/datadump.dat
 ```
 
-### Emptying a temporary folder
+### Emptying a temporary directory
 
 Use the `empty` method to delete all the files inside the temporary directory.
 
@@ -94,7 +94,7 @@ Use the `empty` method to delete all the files inside the temporary directory.
 $temporaryDirectory->empty();
 ```
 
-### Deleting a temporary folder
+### Deleting a temporary directory
 
 Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted.
 
@@ -104,7 +104,7 @@ $temporaryDirectory->delete();
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
