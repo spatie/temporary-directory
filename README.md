@@ -43,29 +43,29 @@ To create a temporary directory simply call the `create` method on a `TemporaryD
 
 ### Naming your temporary directory
 
-If you want to use a custom name for your temporary directory instead of the timestamp call the `name` method before the `create` method.
+If you want to use a custom name for your temporary directory instead of the timestamp call the `name` method with a string `$name` argument before the `create` method.
 
 ```php
 (new TemporaryDirectory())
-   ->name(string $name)
+   ->name($name)
    ->create();
 ```
 
-By default an exception will be thrown if a directory already exists with the given `$name`. You can override this behaviour by calling the `force` method in combination with the `name` method.
+By default an exception will be thrown if a directory already exists with the given argument. You can override this behaviour by calling the `force` method in combination with the `name` method.
 
 ```php
 (new TemporaryDirectory())
-   ->name(string $name)
+   ->name($name)
    ->force()
    ->create();
 ```
 
 ### Setting a custom location for a temporary directory
 
-You can set a custom location in which your temporary directory will be created by passing the `$location` argument to the `TemporaryDirectory` constructor.
+You can set a custom location in which your temporary directory will be created by passing a string `$location` argument to the `TemporaryDirectory` constructor.
 
 ```php
-(new TemporaryDirectory(string $location))
+(new TemporaryDirectory($location))
    ->create();
 ```
 
@@ -73,7 +73,7 @@ Optionally you can call the `location` method with a `$location` argument.
 
 ```php
 (new TemporaryDirectory())
-   ->location(string $location)
+   ->location($location)
    ->create();
 ```
 
