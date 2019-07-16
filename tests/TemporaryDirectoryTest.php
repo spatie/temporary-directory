@@ -17,7 +17,7 @@ class TemporaryDirectoryTest extends TestCase
     /** @var string */
     protected $temporaryDirectoryFullPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
