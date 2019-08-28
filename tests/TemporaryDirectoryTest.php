@@ -2,6 +2,7 @@
 
 namespace Spatie\TemporaryDirectory\Test;
 
+use FilesystemIterator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -259,12 +260,8 @@ class TemporaryDirectoryTest extends TestCase
             return unlink($path);
         }
 
-        foreach (scandir($path) as $item) {
-            if ($item == '.' || $item == '..') {
-                continue;
-            }
-
-            if (! $this->deleteDirectory($path.DIRECTORY_SEPARATOR.$item)) {
+        foreach (new FilesystemIterator($path) as $item) {
+            if (! $this->deleteDirectory($item)) {
                 return false;
             }
         }

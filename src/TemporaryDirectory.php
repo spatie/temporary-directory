@@ -3,6 +3,7 @@
 namespace Spatie\TemporaryDirectory;
 
 use Exception;
+use FilesystemIterator;
 use InvalidArgumentException;
 
 class TemporaryDirectory
@@ -150,12 +151,8 @@ class TemporaryDirectory
             return unlink($path);
         }
 
-        foreach (scandir($path) as $item) {
-            if ($item == '.' || $item == '..') {
-                continue;
-            }
-
-            if (! $this->deleteDirectory($path.DIRECTORY_SEPARATOR.$item)) {
+        foreach (new FilesystemIterator($path) as $item) {
+            if (! $this->deleteDirectory($item)) {
                 return false;
             }
         }
