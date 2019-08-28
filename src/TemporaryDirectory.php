@@ -29,7 +29,7 @@ class TemporaryDirectory
         }
 
         if (empty($this->name)) {
-            $this->name = mt_rand() . '-' .str_replace([' ', '.'], '', microtime());
+            $this->name = mt_rand().'-'.str_replace([' ', '.'], '', microtime());
         }
 
         if ($this->forceCreate && file_exists($this->getFullPath())) {
