@@ -2,11 +2,15 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
-## 1.2.0 - 2019-09-16
+## 1.2.1 - 2019-08-28
+
+- delete directories using `FilesystemIterator`
+
+## 1.2.0 - 2019-06-16
 
 - drop support for PHP 7.1 and below
 
-## 1.1.5 - 2019-09-16
+## 1.1.5 - 2019-06-16
 
 - make sure unique directories are created under heavy load
 
