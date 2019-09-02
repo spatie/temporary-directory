@@ -98,7 +98,7 @@ class TemporaryDirectoryTest extends TestCase
         $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $temporaryDirectory->path());
 
         $temporaryDirectory = (new TemporaryDirectory())
-            ->location($this->temporaryDirectory.DIRECTORY_SEPARATOR)
+            ->location($this->testingDirectory.DIRECTORY_SEPARATOR)
             ->create();
 
         $this->assertStringEndsNotWith(DIRECTORY_SEPARATOR, $temporaryDirectory->path());
@@ -121,12 +121,19 @@ class TemporaryDirectoryTest extends TestCase
     {
         mkdir($this->temporaryDirectoryFullPath);
 
+        $testFile = $this->temporaryDirectoryFullPath . DIRECTORY_SEPARATOR . 'test.txt';
+
+        touch($testFile);
+
+        $this->assertFileExists($testFile);
+
         (new TemporaryDirectory())
             ->force()
             ->name($this->temporaryDirectory)
             ->create();
 
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
+        $this->assertFileNotExists($testFile);
     }
 
     /** @test */
