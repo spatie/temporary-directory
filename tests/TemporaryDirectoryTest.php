@@ -121,7 +121,7 @@ class TemporaryDirectoryTest extends TestCase
     {
         mkdir($this->temporaryDirectoryFullPath);
 
-        $testFile = $this->temporaryDirectoryFullPath . DIRECTORY_SEPARATOR . 'test.txt';
+        $testFile = $this->temporaryDirectoryFullPath.DIRECTORY_SEPARATOR.'test.txt';
 
         touch($testFile);
 
