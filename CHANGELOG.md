@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.2.2 - 2019-12-15
+
+- create dir with 0777 permissions and allow recursive in empty function (#38)
+
 ## 1.2.1 - 2019-08-28
 
 - delete directories using `FilesystemIterator`
