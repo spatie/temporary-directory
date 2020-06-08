@@ -224,6 +224,23 @@ class TemporaryDirectoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_delete_a_temporary_directory_containing_broken_symlink()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->name($this->temporaryDirectory)
+            ->create();
+
+        symlink(
+            $temporaryDirectory->path().DIRECTORY_SEPARATOR.'target',
+            $temporaryDirectory->path().DIRECTORY_SEPARATOR.'link'
+        );
+
+        $temporaryDirectory->delete();
+
+        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+    }
+
+    /** @test */
     public function it_can_empty_a_temporary_directory()
     {
         $temporaryDirectory = (new TemporaryDirectory())
@@ -259,6 +276,10 @@ class TemporaryDirectoryTest extends TestCase
 
     protected function deleteDirectory(string $path): bool
     {
+        if (is_link($path)) {
+            return unlink($path);
+        }
+
         if (! file_exists($path)) {
             return true;
         }
