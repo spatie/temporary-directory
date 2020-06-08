@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.2.3 - 2020-06-07
+
+- fix deleting temporary directories with broken symlinks (#39)
+
 ## 1.2.2 - 2019-12-15
 
 - create dir with 0777 permissions and allow recursive in empty function (#38)
