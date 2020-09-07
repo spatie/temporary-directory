@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.2.4 - 2020-09-06
+
+- force php garbage collection cycle (#40)
+
 ## 1.2.3 - 2020-06-07
 
 - fix deleting temporary directories with broken symlinks (#39)
