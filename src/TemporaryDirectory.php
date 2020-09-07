@@ -161,6 +161,8 @@ class TemporaryDirectory
             }
         }
 
+        gc_collect_cycles();
+
         return rmdir($path);
     }
 }
