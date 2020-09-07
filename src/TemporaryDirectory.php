@@ -161,10 +161,10 @@ class TemporaryDirectory
             }
         }
 
-       /*
-        * By forcing a php garbage collection cycle using gc_collect_cycles() we can ensure 
-        * that the rmdir does not fail due to files still being reserved in memory.
-        */
+        /*
+         * By forcing a php garbage collection cycle using gc_collect_cycles() we can ensure
+         * that the rmdir does not fail due to files still being reserved in memory.
+         */
         gc_collect_cycles();
 
         return rmdir($path);
