@@ -2,6 +2,10 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 1.3.0 - 2020-11-09
+
+- support for PHP 8 (#44)
+
 ## 1.2.4 - 2020-09-06
 
 - force php garbage collection cycle (#40)
