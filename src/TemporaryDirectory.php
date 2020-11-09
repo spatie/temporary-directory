@@ -76,7 +76,7 @@ class TemporaryDirectory
 
         $directoryPath = $this->removeFilenameFromPath($path);
 
-        if (! file_exists($directoryPath)) {
+        if (!file_exists($directoryPath)) {
             mkdir($directoryPath, 0777, true);
         }
 
@@ -120,7 +120,7 @@ class TemporaryDirectory
 
     protected function sanitizeName(string $name): string
     {
-        if (! $this->isValidDirectoryName($name)) {
+        if (!$this->isValidDirectoryName($name)) {
             throw new Exception("The directory name `$name` contains invalid characters.");
         }
 
@@ -129,7 +129,7 @@ class TemporaryDirectory
 
     protected function removeFilenameFromPath(string $path): string
     {
-        if (! $this->isFilePath($path)) {
+        if (!$this->isFilePath($path)) {
             return $path;
         }
 
@@ -147,16 +147,16 @@ class TemporaryDirectory
             return unlink($path);
         }
 
-        if (! file_exists($path)) {
+        if (!file_exists($path)) {
             return true;
         }
 
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             return unlink($path);
         }
 
         foreach (new FilesystemIterator($path) as $item) {
-            if (! $this->deleteDirectory($item)) {
+            if (!$this->deleteDirectory($item)) {
                 return false;
             }
         }

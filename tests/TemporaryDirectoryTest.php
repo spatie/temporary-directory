@@ -280,16 +280,16 @@ class TemporaryDirectoryTest extends TestCase
             return unlink($path);
         }
 
-        if (! file_exists($path)) {
+        if (!file_exists($path)) {
             return true;
         }
 
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             return unlink($path);
         }
 
         foreach (new FilesystemIterator($path) as $item) {
-            if (! $this->deleteDirectory($item)) {
+            if (!$this->deleteDirectory($item)) {
                 return false;
             }
         }
