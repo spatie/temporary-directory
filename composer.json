@@ -3,6 +3,7 @@
     "description": "Easily create, use and destroy temporary directories",
     "keywords": [
         "spatie",
+        "php",
         "temporary-directory"
     ],
     "homepage": "https://github.com/spatie/temporary-directory",
