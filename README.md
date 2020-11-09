@@ -1,7 +1,7 @@
 # Quickly create, use and delete temporary directories
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
-![Tests](https://github.com/spatie/temporary-directory/workflows/Tests/badge.svg)
+![Tests](https://github.com/spatie/temporary-directory/workflows/run-tests/badge.svg)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
 
