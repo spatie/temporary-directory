@@ -110,12 +110,12 @@ class TemporaryDirectory
     {
         /*HOTFIX: START*/
         /*Patch for Ubuntu 19.10 and above (Ubuntu 19.10, 20.04 confirmed)
-        This patch fixes the issue where on a specifc versions of Ubuntu
-        Chromium is looking into `/tmp` folder, however it actually gets
-        an access to `/tmp/snap.chromium/`, Ubuntu 19.10 and above are
-        having an issue where Chromium can access only to `/home` directory.
-        There are no clear solutions for this, this patch will solve
-        this particular problem for this project.
+        This patch fixes the issue where on specific versions of
+        Ubuntu distribution Chromium is looking into `/tmp` folder,
+        however, it actually gets access to `/tmp/snap.chromium/`
+        and it's due to Chromium is a snap package started
+        from `19.10`, and the access for Chromium is only
+        available for `/home` directory.
         References:
             https://askubuntu.com/questions/1184357
             https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/1851250
