@@ -109,7 +109,7 @@ class TemporaryDirectory
     protected function getSystemTemporaryDirectory(): string
     {
         /*HOTFIX: START*/
-        /*Patch for Ubuntu 19.10 and above (Ubuntu 19.10, 20.04 confirmed)
+        /*Patch for Ubuntu `19.10` and above (`Ubuntu `19.10`, `20.04` confirmed)
         This patch fixes the issue where on specific versions of
         Ubuntu distribution Chromium is looking into `/tmp` folder,
         however, it actually gets access to `/tmp/snap.chromium/`
