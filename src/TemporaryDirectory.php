@@ -8,14 +8,11 @@ use InvalidArgumentException;
 
 class TemporaryDirectory
 {
-    /** @var string */
-    protected $location;
+    protected string $location;
 
-    /** @var string */
-    protected $name;
+    protected string $name = '';
 
-    /** @var bool */
-    protected $forceCreate = false;
+    protected bool $forceCreate = false;
 
     public function __construct(string $location = '')
     {
@@ -86,6 +83,7 @@ class TemporaryDirectory
     public function empty(): self
     {
         $this->deleteDirectory($this->getFullPath());
+
         mkdir($this->getFullPath(), 0777, true);
 
         return $this;
@@ -138,7 +136,7 @@ class TemporaryDirectory
 
     protected function isFilePath(string $path): bool
     {
-        return strpos($path, '.') !== false;
+        return str_contains($path, '.');
     }
 
     protected function deleteDirectory(string $path): bool
