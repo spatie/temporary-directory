@@ -2,9 +2,7 @@
 
 namespace Spatie\TemporaryDirectory;
 
-use Exception;
 use FilesystemIterator;
-use InvalidArgumentException;
 use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
 use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
 
@@ -98,7 +96,7 @@ class TemporaryDirectory
 
     protected function getFullPath(): string
     {
-        return $this->location.($this->name ? DIRECTORY_SEPARATOR.$this->name : '');
+        return $this->location.(! empty($this->name) ? DIRECTORY_SEPARATOR.$this->name : '');
     }
 
     protected function isValidDirectoryName(string $directoryName): bool
