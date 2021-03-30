@@ -3,20 +3,18 @@
 namespace Spatie\TemporaryDirectory\Test;
 
 use FilesystemIterator;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
+use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class TemporaryDirectoryTest extends TestCase
 {
-    /** @var string */
-    protected $temporaryDirectory = 'temporary_directory';
+    protected string $temporaryDirectory = 'temporary_directory';
 
-    /** @var string */
-    protected $testingDirectory = __DIR__.DIRECTORY_SEPARATOR.'temp';
+    protected string $testingDirectory = __DIR__.DIRECTORY_SEPARATOR.'temp';
 
-    /** @var string */
-    protected $temporaryDirectoryFullPath;
+    protected string $temporaryDirectoryFullPath;
 
     protected function setUp(): void
     {
@@ -109,7 +107,7 @@ class TemporaryDirectoryTest extends TestCase
     {
         mkdir($this->temporaryDirectoryFullPath);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(PathAlreadyExists::class);
 
         (new TemporaryDirectory())
             ->name($this->temporaryDirectory)
@@ -133,7 +131,7 @@ class TemporaryDirectoryTest extends TestCase
             ->create();
 
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
-        $this->assertFileNotExists($testFile);
+        $this->assertFileDoesNotExist($testFile);
     }
 
     /** @test */
@@ -208,7 +206,7 @@ class TemporaryDirectoryTest extends TestCase
         touch($subdirectoryPath);
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -220,7 +218,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -237,7 +235,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -252,14 +250,14 @@ class TemporaryDirectoryTest extends TestCase
         touch($subdirectoryPath);
         $temporaryDirectory->empty();
 
-        $this->assertFileNotExists($this->temporaryDirectoryFullPath.DIRECTORY_SEPARATOR.$subdirectoriesWithFile);
+        $this->assertFileDoesNotExist($this->temporaryDirectoryFullPath.DIRECTORY_SEPARATOR.$subdirectoriesWithFile);
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
     public function it_throws_exception_on_invalid_name()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidDirectoryName::class);
         $this->expectExceptionMessage('The directory name `/` contains invalid characters.');
         $temporaryDirectory = (new TemporaryDirectory())
             ->name('/');

@@ -1,7 +1,7 @@
 # Quickly create, use and delete temporary directories
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
-![Tests](https://github.com/spatie/temporary-directory/workflows/run-tests/badge.svg)
+![Tests](https://github.com/spatie/temporary-directory/workflows/run-tests/badge.svg?label=tests)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/temporary-directory.svg?style=flat-square)](https://packagist.org/packages/spatie/temporary-directory)
 
@@ -108,23 +108,23 @@ Once you're done processing your temporary data you can delete the entire tempor
 $temporaryDirectory->delete();
 ```
 
+## Testing
+
+```bash
+composer test
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Testing
-
-``` bash
-composer test
-```
 
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-## Security
+## Security Vulnerabilities
 
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Postcardware
 
