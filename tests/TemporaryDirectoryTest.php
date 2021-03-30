@@ -3,8 +3,9 @@
 namespace Spatie\TemporaryDirectory\Test;
 
 use FilesystemIterator;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
+use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class TemporaryDirectoryTest extends TestCase
@@ -106,7 +107,7 @@ class TemporaryDirectoryTest extends TestCase
     {
         mkdir($this->temporaryDirectoryFullPath);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(PathAlreadyExists::class);
 
         (new TemporaryDirectory())
             ->name($this->temporaryDirectory)
@@ -256,7 +257,7 @@ class TemporaryDirectoryTest extends TestCase
     /** @test */
     public function it_throws_exception_on_invalid_name()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidDirectoryName::class);
         $this->expectExceptionMessage('The directory name `/` contains invalid characters.');
         $temporaryDirectory = (new TemporaryDirectory())
             ->name('/');
