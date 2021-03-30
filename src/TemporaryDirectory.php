@@ -5,6 +5,8 @@ namespace Spatie\TemporaryDirectory;
 use Exception;
 use FilesystemIterator;
 use InvalidArgumentException;
+use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
+use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
 
 class TemporaryDirectory
 {
@@ -34,7 +36,7 @@ class TemporaryDirectory
         }
 
         if (file_exists($this->getFullPath())) {
-            throw new InvalidArgumentException("Path `{$this->getFullPath()}` already exists.");
+            throw PathAlreadyExists::create($this->getFullPath());
         }
 
         mkdir($this->getFullPath(), 0777, true);
@@ -119,7 +121,7 @@ class TemporaryDirectory
     protected function sanitizeName(string $name): string
     {
         if (! $this->isValidDirectoryName($name)) {
-            throw new Exception("The directory name `$name` contains invalid characters.");
+            throw InvalidDirectoryName::create($name);
         }
 
         return trim($name);
