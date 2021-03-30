@@ -9,14 +9,11 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class TemporaryDirectoryTest extends TestCase
 {
-    /** @var string */
-    protected $temporaryDirectory = 'temporary_directory';
+    protected string $temporaryDirectory = 'temporary_directory';
 
-    /** @var string */
-    protected $testingDirectory = __DIR__.DIRECTORY_SEPARATOR.'temp';
+    protected string $testingDirectory = __DIR__.DIRECTORY_SEPARATOR.'temp';
 
-    /** @var string */
-    protected $temporaryDirectoryFullPath;
+    protected string $temporaryDirectoryFullPath;
 
     protected function setUp(): void
     {
@@ -133,7 +130,7 @@ class TemporaryDirectoryTest extends TestCase
             ->create();
 
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
-        $this->assertFileNotExists($testFile);
+        $this->assertFileDoesNotExist($testFile);
     }
 
     /** @test */
@@ -208,7 +205,7 @@ class TemporaryDirectoryTest extends TestCase
         touch($subdirectoryPath);
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -220,7 +217,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -237,7 +234,7 @@ class TemporaryDirectoryTest extends TestCase
 
         $temporaryDirectory->delete();
 
-        $this->assertDirectoryNotExists($this->temporaryDirectoryFullPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
@@ -252,7 +249,7 @@ class TemporaryDirectoryTest extends TestCase
         touch($subdirectoryPath);
         $temporaryDirectory->empty();
 
-        $this->assertFileNotExists($this->temporaryDirectoryFullPath.DIRECTORY_SEPARATOR.$subdirectoriesWithFile);
+        $this->assertFileDoesNotExist($this->temporaryDirectoryFullPath.DIRECTORY_SEPARATOR.$subdirectoriesWithFile);
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
     }
 
