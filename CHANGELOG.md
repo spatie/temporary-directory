@@ -2,7 +2,7 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
-## 2.0.0 - unreleased
+## 2.0.0 - 2021-03-30
 
 - require PHP 8+
 - drop PHP 7.x support
