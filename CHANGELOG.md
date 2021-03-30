@@ -2,6 +2,13 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.0.0 - unreleased
+
+- require PHP 8+
+- drop PHP 7.x support
+- use PHP 8 syntax
+- use custom exception classes instead of `InvalidArgumentException` and `Exception`
+
 ## 1.3.0 - 2020-11-09
 
 - support for PHP 8 (#44)
