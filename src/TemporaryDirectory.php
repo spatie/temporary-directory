@@ -106,6 +106,34 @@ class TemporaryDirectory
 
     protected function getSystemTemporaryDirectory(): string
     {
+        /*HOTFIX: START*/
+        /*Patch for Ubuntu `19.10` and above (`Ubuntu `19.10`, `20.04` confirmed)
+        This patch fixes the issue where on specific versions of
+        Ubuntu distribution Chromium is looking into `/tmp` folder,
+        however, it actually gets access to `/tmp/snap.chromium/`
+        and it's due to Chromium is a snap package started
+        from `19.10`, and the access for Chromium is only
+        available for `/home` directory.
+        References:
+            https://askubuntu.com/questions/1184357
+            https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/1851250
+        */
+        $FAILING_OS_DISTRIBUTOR = 'Ubuntu';
+        $FAILING_OS_RELEASE_NUMBER = '19.10';
+
+        $failingOsReleaseNumberInFloat = (float) $FAILING_OS_RELEASE_NUMBER;
+        $osDistributor = rtrim(shell_exec('lsb_release -is'));
+        $osReleaseNumber = (float) shell_exec('lsb_release -rs');
+        if ($osDistributor === $FAILING_OS_DISTRIBUTOR && $osReleaseNumber >= $failingOsReleaseNumberInFloat) {
+            $CUSTOM_TEMP_DIR_NAME = 'puppeteer-tmp';
+            $CUSTOM_TEMP_DIR_FULL_PATH = $_SERVER['HOME'].DIRECTORY_SEPARATOR.$CUSTOM_TEMP_DIR_NAME;
+            if (!file_exists($CUSTOM_TEMP_DIR_FULL_PATH)) {
+                mkdir($CUSTOM_TEMP_DIR_FULL_PATH, 0777, true);
+            }
+            return $CUSTOM_TEMP_DIR_FULL_PATH;
+        }
+        /*HOTFIX: END*/
+
         return rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
     }
 
