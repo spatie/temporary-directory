@@ -42,6 +42,13 @@ class TemporaryDirectory
         return $this;
     }
 
+    public function execute(callable $callable): bool
+    {
+        $callable($this);
+
+        return $this->delete();
+    }
+
     public function force(): self
     {
         $this->forceCreate = true;

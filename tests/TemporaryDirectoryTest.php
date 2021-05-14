@@ -35,6 +35,22 @@ class TemporaryDirectoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_temporary_directory_using_execute()
+    {
+        $temporaryPath = '';
+
+        $result = (new TemporaryDirectory())
+            ->create()
+            ->execute(function (TemporaryDirectory $temporaryDirectory) use (&$temporaryPath) {
+                $this->assertDirectoryExists($temporaryPath = $temporaryDirectory->path());
+            });
+
+        $this->assertTrue($result);
+        $this->assertNotEmpty($temporaryPath);
+        $this->assertDirectoryDoesNotExist($temporaryPath);
+    }
+
+    /** @test */
     public function it_can_create_a_temporary_directory_with_a_name()
     {
         $temporaryDirectory = (new TemporaryDirectory())
@@ -43,6 +59,25 @@ class TemporaryDirectoryTest extends TestCase
 
         $this->assertDirectoryExists($temporaryDirectory->path());
         $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
+    }
+
+    /** @test */
+    public function it_can_create_a_temporary_directory_with_a_name_using_execute()
+    {
+        $temporaryPath = '';
+
+        $result = (new TemporaryDirectory())
+            ->name($this->temporaryDirectory)
+            ->create()
+            ->execute(function (TemporaryDirectory $temporaryDirectory) use (&$temporaryPath) {
+                $this->assertDirectoryExists($temporaryPath = $temporaryDirectory->path());
+                $this->assertDirectoryExists($this->temporaryDirectoryFullPath);
+            });
+
+        $this->assertTrue($result);
+        $this->assertNotEmpty($temporaryPath);
+        $this->assertDirectoryDoesNotExist($temporaryPath);
+        $this->assertDirectoryDoesNotExist($this->temporaryDirectoryFullPath);
     }
 
     /** @test */
