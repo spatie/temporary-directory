@@ -40,7 +40,6 @@ class TemporaryDirectoryTest extends TestCase
         $temporaryPath = '';
 
         $result = (new TemporaryDirectory())
-            ->create()
             ->execute(function (TemporaryDirectory $temporaryDirectory) use (&$temporaryPath) {
                 $this->assertDirectoryExists($temporaryPath = $temporaryDirectory->path());
             });
@@ -68,7 +67,6 @@ class TemporaryDirectoryTest extends TestCase
 
         $result = (new TemporaryDirectory())
             ->name($this->temporaryDirectory)
-            ->create()
             ->execute(function (TemporaryDirectory $temporaryDirectory) use (&$temporaryPath) {
                 $this->assertDirectoryExists($temporaryPath = $temporaryDirectory->path());
                 $this->assertDirectoryExists($this->temporaryDirectoryFullPath);

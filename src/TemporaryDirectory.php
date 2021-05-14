@@ -44,6 +44,8 @@ class TemporaryDirectory
 
     public function execute(callable $callable): bool
     {
+        $this->create();
+
         $callable($this);
 
         return $this->delete();
