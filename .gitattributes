@@ -7,6 +7,6 @@
 /phpunit.xml.dist   export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore
-/.php_cs            export-ignore
+.php_cs.dist        export-ignore
 /.github            export-ignore
 /psalm.xml          export-ignore
