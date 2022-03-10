@@ -35,6 +35,14 @@ class TemporaryDirectoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_temporary_directory_with_shorthand_make()
+    {
+        $temporaryDirectory = TemporaryDirectory::make();
+
+        $this->assertDirectoryExists($temporaryDirectory->path());
+    }
+
+    /** @test */
     public function it_can_create_a_temporary_directory_with_a_name()
     {
         $temporaryDirectory = (new TemporaryDirectory())
