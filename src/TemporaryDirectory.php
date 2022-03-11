@@ -19,6 +19,11 @@ class TemporaryDirectory
         $this->location = $this->sanitizePath($location);
     }
 
+    public static function make(string $location = ''): self
+    {
+        return (new self($location))->create();
+    }
+
     public function create(): self
     {
         if (empty($this->location)) {
