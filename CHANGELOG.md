@@ -2,6 +2,21 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.1.0 - 2022-03-11
+
+## What's Changed
+
+- PHP 8.1 Support by @Nielsvanpach in https://github.com/spatie/temporary-directory/pull/52
+- Update .gitattributes by @PaolaRuby in https://github.com/spatie/temporary-directory/pull/53
+- feature: add TemporaryDirectory::make() method by @ryangjchandler in https://github.com/spatie/temporary-directory/pull/54
+
+## New Contributors
+
+- @PaolaRuby made their first contribution in https://github.com/spatie/temporary-directory/pull/53
+- @ryangjchandler made their first contribution in https://github.com/spatie/temporary-directory/pull/54
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.0.0...2.1.0
+
 ## 2.0.0 - 2021-03-30
 
 - require PHP 8+
