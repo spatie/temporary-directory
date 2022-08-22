@@ -38,7 +38,7 @@ class TemporaryDirectory
             $this->deleteDirectory($this->getFullPath());
         }
 
-        if (file_exists($this->getFullPath())) {
+        if ($this->exists()) {
             throw PathAlreadyExists::create($this->getFullPath());
         }
 
@@ -97,6 +97,11 @@ class TemporaryDirectory
     public function delete(): bool
     {
         return $this->deleteDirectory($this->getFullPath());
+    }
+
+    public function exists(): bool
+    {
+        return file_exists($this->getFullPath());
     }
 
     protected function getFullPath(): string
