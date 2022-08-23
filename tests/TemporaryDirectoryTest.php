@@ -280,6 +280,19 @@ class TemporaryDirectoryTest extends TestCase
         $this->assertTrue($temporaryDirectory);
     }
 
+    /** @test */
+    public function it_exists_function_should_tell_if_directory_exists()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->name($this->temporaryDirectory);
+
+        $this->assertFalse($temporaryDirectory->exists());
+
+        $temporaryDirectory->create();
+
+        $this->assertTrue($temporaryDirectory->exists());
+    }
+
     protected function deleteDirectory(string $path): bool
     {
         if (is_link($path)) {
