@@ -2,6 +2,22 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.1.1 - 2022-08-23
+
+### What's Changed
+
+- Update .gitattributes by @erikn69 in https://github.com/spatie/temporary-directory/pull/55
+- Update .gitattributes by @angeljqv in https://github.com/spatie/temporary-directory/pull/56
+- Add a function to check if the temporary directory exist without catching PathAlreadyExists exception by @Admiral-Enigma in https://github.com/spatie/temporary-directory/pull/57
+
+### New Contributors
+
+- @erikn69 made their first contribution in https://github.com/spatie/temporary-directory/pull/55
+- @angeljqv made their first contribution in https://github.com/spatie/temporary-directory/pull/56
+- @Admiral-Enigma made their first contribution in https://github.com/spatie/temporary-directory/pull/57
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.1.0...2.1.1
+
 ## 2.1.0 - 2022-03-11
 
 ## What's Changed
