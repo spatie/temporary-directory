@@ -5,6 +5,7 @@ namespace Spatie\TemporaryDirectory;
 use FilesystemIterator;
 use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
 use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
+use Throwable;
 
 class TemporaryDirectory
 {
@@ -179,8 +180,7 @@ class TemporaryDirectory
             gc_collect_cycles();
 
             $res = rmdir($path);
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (Throwable $throwable) {
         }
 
         return $res;
