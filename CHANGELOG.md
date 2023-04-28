@@ -2,6 +2,27 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.1.2 - 2023-04-28
+
+### What's Changed
+
+- Add dependabot automation by @patinthehat in https://github.com/spatie/temporary-directory/pull/58
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/spatie/temporary-directory/pull/59
+- Bump actions/cache from 1 to 3 by @dependabot in https://github.com/spatie/temporary-directory/pull/60
+- Add PHP 8.2 Support by @patinthehat in https://github.com/spatie/temporary-directory/pull/61
+- Update Dependabot Automation by @patinthehat in https://github.com/spatie/temporary-directory/pull/62
+- Normalize composer.json by @patinthehat in https://github.com/spatie/temporary-directory/pull/63
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/temporary-directory/pull/64
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/temporary-directory/pull/65
+- Added try catch by @metaversedataman in https://github.com/spatie/temporary-directory/pull/66
+
+### New Contributors
+
+- @dependabot made their first contribution in https://github.com/spatie/temporary-directory/pull/59
+- @metaversedataman made their first contribution in https://github.com/spatie/temporary-directory/pull/66
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.1.1...2.1.2
+
 ## 2.1.1 - 2022-08-23
 
 ### What's Changed
