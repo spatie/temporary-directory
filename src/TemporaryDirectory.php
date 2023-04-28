@@ -152,8 +152,6 @@ class TemporaryDirectory
 
     protected function deleteDirectory(string $path): bool
     {
-        $result = false;
-
         try {
             if (is_link($path)) {
                 return unlink($path);
@@ -179,10 +177,9 @@ class TemporaryDirectory
              */
             gc_collect_cycles();
 
-            $result = rmdir($path);
+            return rmdir($path);
         } catch (Throwable $throwable) {
+            return false;
         }
-
-        return $result;
     }
 }
