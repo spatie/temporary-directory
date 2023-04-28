@@ -151,30 +151,38 @@ class TemporaryDirectory
 
     protected function deleteDirectory(string $path): bool
     {
-        if (is_link($path)) {
-            return unlink($path);
-        }
+        $res = false;
 
-        if (! file_exists($path)) {
-            return true;
-        }
-
-        if (! is_dir($path)) {
-            return unlink($path);
-        }
-
-        foreach (new FilesystemIterator($path) as $item) {
-            if (! $this->deleteDirectory($item)) {
-                return false;
+        try {
+            if (is_link($path)) {
+                return unlink($path);
             }
+
+            if (! file_exists($path)) {
+                return true;
+            }
+
+            if (! is_dir($path)) {
+                return unlink($path);
+            }
+
+            foreach (new FilesystemIterator($path) as $item) {
+                if (! $this->deleteDirectory($item)) {
+                    return false;
+                }
+            }
+
+            /*
+             * By forcing a php garbage collection cycle using gc_collect_cycles() we can ensure
+             * that the rmdir does not fail due to files still being reserved in memory.
+             */
+            gc_collect_cycles();
+
+            $res = rmdir($path);
+        } catch (\Throwable $th) {
+            //throw $th;
         }
 
-        /*
-         * By forcing a php garbage collection cycle using gc_collect_cycles() we can ensure
-         * that the rmdir does not fail due to files still being reserved in memory.
-         */
-        gc_collect_cycles();
-
-        return rmdir($path);
+        return $res;
     }
 }
