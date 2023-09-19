@@ -32,7 +32,7 @@ class TemporaryDirectory
         }
 
         if (empty($this->name)) {
-            $this->name = mt_rand().'-'.str_replace([' ', '.'], '', microtime());
+            $this->name = random_int(0, mt_getrandmax()).'-'.str_replace([' ', '.'], '', microtime());
         }
 
         if ($this->forceCreate && file_exists($this->getFullPath())) {
