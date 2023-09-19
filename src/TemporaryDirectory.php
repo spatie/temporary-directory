@@ -178,7 +178,7 @@ class TemporaryDirectory
             gc_collect_cycles();
 
             return rmdir($path);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             return false;
         }
     }
