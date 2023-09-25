@@ -2,6 +2,22 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.2.0 - 2023-09-25
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/spatie/temporary-directory/pull/67
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/temporary-directory/pull/68
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/temporary-directory/pull/69
+- Remove unused variable in catch block by @peter279k in https://github.com/spatie/temporary-directory/pull/71
+- Setting to delete when an object is destroyed by @cosmastech in https://github.com/spatie/temporary-directory/pull/70
+
+### New Contributors
+
+- @cosmastech made their first contribution in https://github.com/spatie/temporary-directory/pull/70
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.1.2...2.2.0
+
 ## 2.1.2 - 2023-04-28
 
 ### What's Changed
