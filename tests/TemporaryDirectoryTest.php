@@ -301,7 +301,9 @@ class TemporaryDirectoryTest extends TestCase
             ->deleteWhenDestroyed()
             ->create();
 
-        $this->assertDirectoryExists($fullPath = $temporaryDirectory->path());
+        $fullPath = $temporaryDirectory->path();
+
+        $this->assertDirectoryExists($fullPath);
 
         unset($temporaryDirectory);
         $this->assertDirectoryDoesNotExist($fullPath);
