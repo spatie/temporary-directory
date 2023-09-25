@@ -15,6 +15,8 @@ class TemporaryDirectory
 
     protected bool $forceCreate = false;
 
+    protected bool $deleteWhenDestroyed = false;
+
     public function __construct(string $location = '')
     {
         $this->location = $this->sanitizePath($location);
@@ -180,6 +182,20 @@ class TemporaryDirectory
             return rmdir($path);
         } catch (Throwable) {
             return false;
+        }
+    }
+
+    public function deleteWhenDestroyed(bool $deleteWhenDestroyed = true): self
+    {
+        $this->deleteWhenDestroyed = $deleteWhenDestroyed;
+
+        return $this;
+    }
+
+    public function __destruct()
+    {
+        if ($this->deleteWhenDestroyed) {
+            $this->delete();
         }
     }
 }

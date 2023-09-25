@@ -293,6 +293,22 @@ class TemporaryDirectoryTest extends TestCase
         $this->assertTrue($temporaryDirectory->exists());
     }
 
+    /** @test */
+    public function it_can_delete_when_object_is_destroyed()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())
+            ->name($this->temporaryDirectory)
+            ->deleteWhenDestroyed()
+            ->create();
+
+        $fullPath = $temporaryDirectory->path();
+
+        $this->assertDirectoryExists($fullPath);
+
+        unset($temporaryDirectory);
+        $this->assertDirectoryDoesNotExist($fullPath);
+    }
+
     protected function deleteDirectory(string $path): bool
     {
         if (is_link($path)) {
