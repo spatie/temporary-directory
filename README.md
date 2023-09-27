@@ -108,6 +108,28 @@ Once you're done processing your temporary data you can delete the entire tempor
 $temporaryDirectory->delete();
 ```
 
+### Deleting a temporary directory when the object is destroyed
+
+If you want to automatically have the filesystem directory deleted when the object instance has no more references in
+its defined scope, you can enable `deleteWhenDestroyed()` on the TemporaryDirectory object.
+
+```php
+function handleTemporaryFiles()
+{
+    $temporaryDirectory = (new TemporaryDirectory())
+        ->deleteWhenDestroyed()
+        ->create();
+
+    // ... use the temporary directory
+
+    return; // no need to manually call $temporaryDirectory->delete()!
+}
+
+handleTemporaryFiles();
+```
+
+You can also call `unset()` on an object instance.
+
 ## Testing
 
 ```bash
