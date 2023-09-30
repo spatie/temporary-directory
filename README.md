@@ -41,11 +41,19 @@ composer require spatie/temporary-directory
 
 ### Creating a temporary directory
 
-To create a temporary directory simply call the `create` method on a `TemporaryDirectory` object. By default the temporary directory will be created in a timestamped directory in your system's temporary directory (usually `/tmp`).
+To create a temporary directory simply call the `create` method on a `TemporaryDirectory` object.
 
 ```php
 (new TemporaryDirectory())->create();
 ```
+
+Alternatively, use the static `make` method on a `TemporaryDirectory` object.
+
+```php
+TemporaryDirectory::make();
+```
+
+By default, the temporary directory will be created in a timestamped directory in your system's temporary directory (usually `/tmp`).
 
 ### Naming your temporary directory
 
@@ -75,7 +83,13 @@ You can set a custom location in which your temporary directory will be created 
    ->create();
 ```
 
-Optionally you can call the `location` method with a `$location` argument.
+The `make` method also accepts a `$location` argument.
+
+```php
+TemporaryDirectory::make($location);
+```
+
+Finally, you can call the `location` method with a `$location` argument.
 
 ```php
 (new TemporaryDirectory())
