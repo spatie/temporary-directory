@@ -3,8 +3,9 @@
 namespace Spatie\TemporaryDirectory;
 
 use FilesystemIterator;
-use Exceptions\InvalidDirectoryName;
-use Exceptions\PathAlreadyExists;
+use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
+use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
+use RuntimeException;
 use Throwable;
 
 class TemporaryDirectory
@@ -106,8 +107,7 @@ class TemporaryDirectory
                 $this->callBeforeCreateCallbacks();
             }
             if (!mkdir($directoryPath, 0777, true) && !is_dir($directoryPath)) {
-               error_log("Directory $directoryPath was not created");
-                // throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryPath));
+                throw new RuntimeException(sprintf('Directory "%s" was not created', $directoryPath));
             }
             if ($this->useLifecycleEvents) {
                 $this->callAfterCreateCallbacks();
