@@ -1,12 +1,11 @@
 <?php
 
-namespace Spatie\TemporaryDirectory\Test;
+namespace Test;
 
 use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
-use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
-use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Exceptions\InvalidDirectoryName;
+use TemporaryDirectory;
 
 class TemporaryDirectoryTest extends TestCase
 {
