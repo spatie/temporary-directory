@@ -1,6 +1,6 @@
 <?php
+
 namespace Spatie\TemporaryDirectory;
-use Illuminate\Support\Facades\App;
 
 trait HasLifeCycleEvents
 {
@@ -50,11 +50,9 @@ trait HasLifeCycleEvents
         }
     }
 
-
-
     public function beforeCreate(array|callable $callback): object
     {
-        if (!is_array($callback)) {
+        if (! is_array($callback)) {
             $callback = [$callback];
         }
 
@@ -69,7 +67,7 @@ trait HasLifeCycleEvents
 
     public function afterCreate(array|callable $callback): object
     {
-        if (!is_array($callback)) {
+        if (! is_array($callback)) {
             $callback = [$callback];
         }
 
@@ -84,7 +82,7 @@ trait HasLifeCycleEvents
 
     public function afterDelete(array|callable $callback): object
     {
-        if (!is_array($callback)) {
+        if (! is_array($callback)) {
             $callback = [$callback];
         }
 
@@ -99,7 +97,7 @@ trait HasLifeCycleEvents
 
     public function beforeDelete(array|callable $callback): object
     {
-        if (!is_array($callback)) {
+        if (! is_array($callback)) {
             $callback = [$callback];
         }
 
@@ -111,5 +109,4 @@ trait HasLifeCycleEvents
 
         return $this;
     }
-
 }

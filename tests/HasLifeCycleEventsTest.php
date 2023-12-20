@@ -13,7 +13,6 @@ class HasLifeCycleEventsTest extends TestCase
     public static $randomStringForTest = "asd";
     public $callback;
 
-
     protected function setUp(): void
     {
         parent::setUp();

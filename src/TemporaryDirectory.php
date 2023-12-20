@@ -3,9 +3,9 @@
 namespace Spatie\TemporaryDirectory;
 
 use FilesystemIterator;
+use RuntimeException;
 use Spatie\TemporaryDirectory\Exceptions\InvalidDirectoryName;
 use Spatie\TemporaryDirectory\Exceptions\PathAlreadyExists;
-use RuntimeException;
 use Throwable;
 
 class TemporaryDirectory
@@ -66,7 +66,7 @@ class TemporaryDirectory
 
     protected function getFullPath(): string
     {
-        return $this->location . (!empty($this->name) ? DIRECTORY_SEPARATOR . $this->name : '');
+        return $this->location . (! empty($this->name) ? DIRECTORY_SEPARATOR . $this->name : '');
     }
 
     protected function deleteDirectory(string $path): bool
@@ -74,20 +74,22 @@ class TemporaryDirectory
         try {
             if (is_link($path)) {
                 $result = unlink($path);
+
                 return $result;
             }
 
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 return true;
             }
 
-            if (!is_dir($path)) {
+            if (! is_dir($path)) {
                 $result = unlink($path);
+
                 return $result;
             }
 
             foreach (new FilesystemIterator($path) as $item) {
-                if (!$this->deleteDirectory($item)) {
+                if (! $this->deleteDirectory($item)) {
                     return false;
                 }
             }
@@ -120,6 +122,7 @@ class TemporaryDirectory
         if ($this->useLifecycleEvents) {
             $this->callAfterDeleteCallbacks();
         }
+
         return true;
     }
 
@@ -130,11 +133,11 @@ class TemporaryDirectory
 
     public function mkdir($directoryPath, $mode = 0777, $recursive = true)
     {
-        if (!file_exists($directoryPath)) {
+        if (! file_exists($directoryPath)) {
             if ($this->useLifecycleEvents) {
                 $this->callBeforeCreateCallbacks();
             }
-            if (!mkdir($directoryPath, 0777, true) && !is_dir($directoryPath)) {
+            if (! mkdir($directoryPath, 0777, true) && ! is_dir($directoryPath)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $directoryPath));
             }
             if ($this->useLifecycleEvents) {
@@ -148,6 +151,7 @@ class TemporaryDirectory
     public function useLifecycleEvents(bool $useLifecycleEvents = true): TemporaryDirectory
     {
         $this->useLifecycleEvents = $useLifecycleEvents;
+
         return $this;
     }
 
@@ -167,7 +171,7 @@ class TemporaryDirectory
 
     protected function sanitizeName(string $name): string
     {
-        if (!$this->isValidDirectoryName($name)) {
+        if (! $this->isValidDirectoryName($name)) {
             throw InvalidDirectoryName::create($name);
         }
 
@@ -196,7 +200,7 @@ class TemporaryDirectory
 
         $directoryPath = $this->removeFilenameFromPath($path);
 
-        if (!file_exists($directoryPath)) {
+        if (! file_exists($directoryPath)) {
             $this->mkdir($directoryPath, 0777, true);
         }
 
@@ -205,7 +209,7 @@ class TemporaryDirectory
 
     protected function removeFilenameFromPath(string $path): string
     {
-        if (!$this->isFilePath($path)) {
+        if (! $this->isFilePath($path)) {
             return $path;
         }
 
