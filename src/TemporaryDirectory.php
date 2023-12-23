@@ -168,7 +168,7 @@ class TemporaryDirectory
             }
 
             foreach (new FilesystemIterator($path) as $item) {
-                if (! $this->deleteDirectory($item)) {
+                if (! $this->deleteDirectory((string) $item)) {
                     return false;
                 }
             }
