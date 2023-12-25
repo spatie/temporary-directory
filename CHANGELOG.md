@@ -2,6 +2,22 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.2.1 - 2023-12-25
+
+### What's Changed
+
+* DeleteWhenDestroyed documentation by @cosmastech in https://github.com/spatie/temporary-directory/pull/74
+* Document make method by @openjck in https://github.com/spatie/temporary-directory/pull/76
+* Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/spatie/temporary-directory/pull/77
+* [2.x] Fix directories not being deleted in strict mode by @RVxLab in https://github.com/spatie/temporary-directory/pull/81
+
+### New Contributors
+
+* @openjck made their first contribution in https://github.com/spatie/temporary-directory/pull/76
+* @RVxLab made their first contribution in https://github.com/spatie/temporary-directory/pull/81
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.2.0...2.2.1
+
 ## 2.2.0 - 2023-09-25
 
 ### What's Changed
