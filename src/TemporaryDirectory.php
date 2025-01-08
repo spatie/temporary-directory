@@ -107,6 +107,11 @@ class TemporaryDirectory
         return file_exists($this->getFullPath());
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     protected function getFullPath(): string
     {
         return $this->location.(! empty($this->name) ? DIRECTORY_SEPARATOR.$this->name : '');
