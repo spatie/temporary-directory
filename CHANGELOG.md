@@ -2,6 +2,22 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.3.0 - 2025-01-13
+
+### What's Changed
+
+* Bump actions/cache from 3 to 4 by @dependabot in https://github.com/spatie/temporary-directory/pull/82
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.1.0 by @dependabot in https://github.com/spatie/temporary-directory/pull/84
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/spatie/temporary-directory/pull/86
+* PHP 8.3, 8.4 tests by @erikn69 in https://github.com/spatie/temporary-directory/pull/87
+* Add `getName` method by @willrowe in https://github.com/spatie/temporary-directory/pull/88
+
+### New Contributors
+
+* @willrowe made their first contribution in https://github.com/spatie/temporary-directory/pull/88
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.2.1...2.3.0
+
 ## 2.2.1 - 2023-12-25
 
 ### What's Changed
