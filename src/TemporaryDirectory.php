@@ -19,7 +19,7 @@ class TemporaryDirectory
 
     protected int $permission = 0777;
 
-    public final function __construct(string $location = '')
+    final public function __construct(string $location = '')
     {
         $this->location = $this->sanitizePath($location);
     }
