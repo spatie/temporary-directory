@@ -2,6 +2,21 @@
 
 All notable changes to `temporary-directory` will be documented in this file
 
+## 2.4.0 - 2026-06-22
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/spatie/temporary-directory/pull/99
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/spatie/temporary-directory/pull/100
+* Bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 by @dependabot[bot] in https://github.com/spatie/temporary-directory/pull/101
+* Return static instead of self by @QuentinGab in https://github.com/spatie/temporary-directory/pull/102
+
+### New Contributors
+
+* @QuentinGab made their first contribution in https://github.com/spatie/temporary-directory/pull/102
+
+**Full Changelog**: https://github.com/spatie/temporary-directory/compare/2.3.1...2.4.0
+
 ## 2.3.1 - 2026-01-12
 
 ### What's Changed
