@@ -163,7 +163,12 @@ class TemporaryDirectory
 
     protected function isFilePath(string $path): bool
     {
-        return str_contains($path, '.');
+        // Only the last segment can be a filename; a dot in a parent segment would
+        // misclassify a directory.
+        $lastSeparator = strrpos($path, DIRECTORY_SEPARATOR);
+        $lastSegment = $lastSeparator === false ? $path : substr($path, $lastSeparator + 1);
+
+        return str_contains($lastSegment, '.');
     }
 
     protected function deleteDirectory(string $path): bool

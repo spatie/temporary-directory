@@ -174,6 +174,25 @@ class TemporaryDirectoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_subdirectory_when_the_location_contains_a_dot()
+    {
+        $dottedLocation = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'my.dotted.location';
+        $this->deleteDirectory($dottedLocation);
+
+        $temporaryDirectory = (new TemporaryDirectory($dottedLocation))
+            ->name($this->temporaryDirectory)
+            ->create();
+
+        $subdirectory = 'abc';
+        $subdirectoryPath = $temporaryDirectory->path($subdirectory);
+
+        $this->assertDirectoryExists($subdirectoryPath);
+
+        $temporaryDirectory->delete();
+        $this->deleteDirectory($dottedLocation);
+    }
+
+    /** @test */
     public function it_can_create_a_multiple_subdirectories_in_the_temporary_directory()
     {
         $temporaryDirectory = (new TemporaryDirectory())
